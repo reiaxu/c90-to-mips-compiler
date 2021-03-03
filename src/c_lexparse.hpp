@@ -1,6 +1,8 @@
 #ifndef c_lexparse_hpp
 #define c_lexparse_hpp
 
+#include<string>
+
 extern int yylex();
 
 enum TokenType{
@@ -14,5 +16,12 @@ enum TokenType{
 //keywords
   RETURN = 259,
 };
+
+union TokenVal{
+    int num;
+    std::string *str;
+};
+
+extern TokenVal yylval;
 
 #endif

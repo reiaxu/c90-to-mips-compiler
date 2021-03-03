@@ -1,6 +1,5 @@
 %code requires{
-  #include "ast.hpp"
-
+  #include "c_lexparse.hpp"
   #include <cassert>
 
   extern const Expression *g_root; // A way of getting the AST out
@@ -11,12 +10,34 @@
   int yylex(void);
   void yyerror(const char *);
 }
+%token IDENTIFIER INTCONST
 
+%token INT
+
+%token RETURN
+
+%start Function
 %%
+TranslationalUnit:
+              FunctionDef {}
+              ;
+FunctionDef:
+              TypeSpecifier IDENTIFIER '(' ')' '{' JumpStatement '}' {}
+              ;
+JumpStatement:
+              RETURN PrimaryExpr ';' {}
+              |RETURN ';' {}
+              ;
+
+TypeSpecifier:
+              INT {}
+              ;
 
 PrimaryExpr:
           INTCONST {$$=$1;}
-		;
+          |IDENTIFIER {$$ = $1}
+		      ;
+
 Operator:
           '&'	{ $$ = '&'; }
         | '*'	{ $$ = '*'; }
@@ -26,5 +47,5 @@ Operator:
         | '!'	{ $$ = '!'; }
         ;
 
-    
+
 %%
