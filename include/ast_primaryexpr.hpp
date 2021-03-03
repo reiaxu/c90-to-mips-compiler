@@ -1,5 +1,5 @@
 #ifndef ast_primaryexpr_hpp
-#ifndef ast_primaryexpr_hpp
+#define ast_primaryexpr_hpp
 
 #include"ast_transalationalunit.hpp"
 
@@ -8,9 +8,7 @@
 #include<iostream>
 
 class PrimaryExpr
-      :public TranslationalUnit;
-
-class PrimaryExpr{
+      :public TranslationalUnit{
   private:
     std::string type;
     std::string* val;
@@ -19,11 +17,11 @@ class PrimaryExpr{
   protected:
     PrimaryExpr(const std::string &_type, std::string* _val)
         :type(_type),
-        val(_val);
+        val(_val)
     {}
 
   public:
-    void ~PrimaryExpr(){
+    virtual ~PrimaryExpr(){
       delete val;
     }
 

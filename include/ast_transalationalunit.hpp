@@ -7,7 +7,7 @@
 
 class TranslationalUnit;
 
-typedef TranslationalUnit* TransUnitPtr;
+typedef const TranslationalUnit* TransUnitPtr;
 
 class TranslationalUnit{
 

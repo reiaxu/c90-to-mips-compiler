@@ -1,5 +1,5 @@
 #ifndef ast_jumpstat_hpp
-#ifndef ast_jumpstat_hpp
+#define ast_jumpstat_hpp
 
 #include"ast_transalationalunit.hpp"
 
@@ -8,12 +8,10 @@
 #include<iostream>
 
 class JumpStat
-      :public TranslationalUnit;
-
-class JumpStat{
+      :public TranslationalUnit{
   private:
-  std::string* jump;
-  TransUnitPtr primaryexpr=NULLPTR;
+  std::string jump;
+  TransUnitPtr primaryexpr=0;
 
   protected:
   JumpStat(std::string &_jump): jump(_jump){}
@@ -28,10 +26,10 @@ public:
   }
 
   virtual void PrettyPrint(std::ostream &dst) const override{
-    if(primaryexpr==NULLPTR){
-      dst<<(*jump)<<';'
+    if(primaryexpr==0){
+      dst<<jump<<';';
     }else{
-      dst<<(*jump)<<' ';
+      dst<<jump<<' ';
       primaryexpr->PrettyPrint(dst);
       dst<<';';
     }

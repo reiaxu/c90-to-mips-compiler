@@ -8,20 +8,16 @@
 #include<iostream>
 
 class FunctionDef
-      :public TranslationalUnit;
-
-typedef FunctionDef* FuncDefPtr;
-
-class FunctionDef{
+      :public TranslationalUnit{
 
   private:
     TransUnitPtr type;
-    TransUnitPtr identif;
+    std::string* identif;
     TransUnitPtr jumpstat;
 
   protected:
     FunctionDef(TransUnitPtr _type,
-                TransUnitPtr _identif,
+                std::string* _identif,
                 TransUnitPtr _jumpstat)
 
               :type(_type)
@@ -38,14 +34,14 @@ class FunctionDef{
 
     virtual void PrettyPrint(std::ostream &dst) const override{
       type->PrettyPrint(dst);
-      dst<<" ";
-      identif->PrettyPrint(dst);
-      dst<<"(){\n";
+      dst<<" "<<(*identif)<<"(){\n";
       jumpstat->PrettyPrint(dst);
       dst<<"\n }";
     }
 
 
 };
+
+//typedef FunctionDef* FuncDefPtr;
 
 #endif

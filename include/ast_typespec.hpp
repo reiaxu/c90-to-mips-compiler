@@ -8,19 +8,17 @@
 #include<iostream>
 
 class TypeSpec
-      :public TranslationalUnit;
-
-class TypeSpec{
+      :public TranslationalUnit{
   private:
     std::string type;
 
   protected:
     TypeSpec(const std::string &_type)
-        :type(_type);
+        :type(_type)
     {}
 
   public:
-    void ~TypeSpec(){}
+    virtual ~TypeSpec(){}
 
     virtual void PrettyPrint(std::ostream &dst) const override{
       dst<<type;
