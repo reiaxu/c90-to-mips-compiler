@@ -2,7 +2,7 @@
   #include "c_lexparse.hpp"
   #include <cassert>
 
-  extern const Expression *g_root; // A way of getting the AST out
+  extern const TranslationalUnit *g_root; // A way of getting the AST out
 
   //! This is to fix problems when generating C++
   // We are declaring the functions provided by Flex, so
@@ -16,26 +16,30 @@
 
 %token RETURN
 
-%start Function
+%start ROOT
 %%
+ROOT:
+    TranslationalUnit {g_root = $1}
+    ;
+    
 TranslationalUnit:
-              FunctionDef {}
+              FunctionDef {$$ = $1}
               ;
 FunctionDef:
-              TypeSpecifier IDENTIFIER '(' ')' '{' JumpStatement '}' {}
+              TypeSpecifier IDENTIFIER '(' ')' '{' JumpStatement '}' {$$ = new FunctionDef($1,$2,$6);}
               ;
 JumpStatement:
-              RETURN PrimaryExpr ';' {}
-              |RETURN ';' {}
+              RETURN PrimaryExpr ';' {$$ = new JumpStat("return",$2);}
+              |RETURN ';' {$$ = new JumpStat("return");}
               ;
 
 TypeSpecifier:
-              INT {}
+              INT {$$ = new TypeSpec("int");}
               ;
 
 PrimaryExpr:
-          INTCONST {$$=$1;}
-          |IDENTIFIER {$$ = $1}
+          INTCONST {$$=new PrimaryExpr($1);}
+          |IDENTIFIER {$$ = new PrimaryExpr($1);}
 		      ;
 
 Operator:
@@ -49,3 +53,12 @@ Operator:
 
 
 %%
+
+const TranslationalUnit *g_root; // Definition of variable (to match declaration earlier)
+
+const TranslationalUnit *parseAST()
+{
+  g_root=0;
+  yyparse();
+  return g_root;
+}
