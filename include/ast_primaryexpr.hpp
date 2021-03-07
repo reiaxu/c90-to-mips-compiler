@@ -15,12 +15,13 @@ class PrimaryExpr
 
 
   protected:
-    PrimaryExpr(const std::string &_type, std::string* _val)
-        :type(_type),
-        val(_val)
-    {}
 
   public:
+    PrimaryExpr(const std::string _type, std::string* _val)
+    :type(_type),
+    val(_val)
+    {}
+
     virtual ~PrimaryExpr(){
       delete val;
     }

@@ -13,11 +13,12 @@ class TypeSpec
     std::string type;
 
   protected:
-    TypeSpec(const std::string &_type)
-        :type(_type)
-    {}
 
   public:
+    TypeSpec(const std::string &_type)
+    :type(_type)
+    {}
+      
     virtual ~TypeSpec(){}
 
     virtual void PrettyPrint(std::ostream &dst) const override{

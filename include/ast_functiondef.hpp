@@ -16,16 +16,17 @@ class FunctionDef
     TransUnitPtr jumpstat;
 
   protected:
-    FunctionDef(TransUnitPtr _type,
-                std::string* _identif,
-                TransUnitPtr _jumpstat)
-
-              :type(_type)
-              ,identif(_identif)
-              ,jumpstat(_jumpstat)
-    {}
 
   public:
+   FunctionDef(TransUnitPtr _type,
+      std::string* _identif,
+      TransUnitPtr _jumpstat)
+
+      :type(_type)
+      ,identif(_identif)
+      ,jumpstat(_jumpstat)
+      {}
+
     virtual ~FunctionDef(){
       delete type;
       delete identif;

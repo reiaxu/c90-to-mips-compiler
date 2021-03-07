@@ -14,13 +14,14 @@ class JumpStat
   TransUnitPtr primaryexpr=0;
 
   protected:
-  JumpStat(std::string &_jump): jump(_jump){}
-  JumpStat(std::string &_jump, TransUnitPtr _primaryexpr)
-          : jump(_jump)
-          ,primaryexpr(_primaryexpr)
-  {}
 
 public:
+  JumpStat(std::string _jump): jump(_jump){}
+  JumpStat(std::string _jump, TransUnitPtr _primaryexpr)
+  : jump(_jump)
+  ,primaryexpr(_primaryexpr)
+  {}
+
   virtual ~JumpStat(){
     delete primaryexpr;
   }

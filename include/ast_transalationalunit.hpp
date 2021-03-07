@@ -17,6 +17,8 @@ public:
 
   virtual void PrettyPrint(std::ostream &dst) const = 0;
 
+  //virtual void toIR(std::ostream &dst) const = 0;
+
 
 };
 
