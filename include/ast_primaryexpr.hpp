@@ -13,7 +13,6 @@ class PrimaryExpr
     std::string type;
     std::string* val;
 
-
   protected:
 
   public:
