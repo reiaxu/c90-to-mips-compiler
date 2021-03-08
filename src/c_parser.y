@@ -2,6 +2,8 @@
 //  #include "c_lexparse.hpp"
   #include "../include/ast.hpp"
   #include <cassert>
+  #include <string>
+
 
 
   extern const TranslationalUnit *g_root; // A way of getting the AST out
@@ -11,6 +13,7 @@
   // that Bison generated code can call them.
   int yylex(void);
   void yyerror(const char *);
+
 }
 %union{
   const TranslationalUnit* tu;
@@ -23,8 +26,8 @@
 %token INT
 %token RETURN
 
-%type <tu> ROOT TranslationalUnit FunctionDef JumpStatement TypeSpecifier PrimaryExpr
-%type <string> IDENTIFIER INTCONST
+%type <tu> ROOT TranslationalUnit FunctionDef CompoundStatement StatementList Statement JumpStatement DeclarationSpecifier TypeSpecifier PrimaryExpr
+%type <string> IDENTIFIER INTCONST Declarator DirectDeclarator
 //%type <_char> Operator
 
 %start ROOT
@@ -32,19 +35,30 @@
 
 ROOT: TranslationalUnit {g_root = $1;}
 
-
 TranslationalUnit: FunctionDef {$$ = $1;}
 
-FunctionDef: TypeSpecifier IDENTIFIER '(' ')' '{' JumpStatement '}' {$$ = new FunctionDef($1,$2,$6);}
+FunctionDef: DeclarationSpecifier Declarator CompoundStatement {$$ = new FunctionDef($1, $2, $3);}
+
+CompoundStatement: '{' '}' {}
+                | '{' StatementList '}' {$$=$2;}
+
+StatementList: Statement {$$=$1;}
+
+Statement: JumpStatement {$$=$1;}
 
 JumpStatement: RETURN PrimaryExpr ';' {$$ = new JumpStat("return",$2);}
               |RETURN ';' {$$ = new JumpStat("return");}
 
+DeclarationSpecifier: TypeSpecifier {$$ = $1;}
 
-TypeSpecifier: INT {$$ = new TypeSpec("int");}
+Declarator: DirectDeclarator {$$=$1;}
 
+DirectDeclarator: IDENTIFIER {$$ = $1;}
+                | DirectDeclarator '(' ')' {$$=$1;}
 
-PrimaryExpr: INTCONST {$$=new PrimaryExpr("int",$1);}
+TypeSpecifier: INT {$$ =new TypeSpec("int");}
+
+PrimaryExpr: INTCONST {$$=new PrimaryExpr("int", $1);}
              |IDENTIFIER {$$ = new PrimaryExpr("identif",$1);/*}
 
 
