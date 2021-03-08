@@ -1,6 +1,5 @@
-  
-CPPFLAGS += -std=c++17 -W -Wall -g -Wno-unused-parameter
-CPPFLAGS += -I inc
+CPPFLAGS += -std=c++11 -W -Wall -g -Wno-unused-parameter
+CPPFLAGS += -I include
 
 bin/c_compiler : bin/compiler src/wrapper.sh
 	cp src/wrapper.sh bin/c_compiler
@@ -9,7 +8,17 @@ bin/c_compiler : bin/compiler src/wrapper.sh
 bin/compiler : src/compiler.cpp
 	mkdir -p bin
 	g++ $(CPPFLAGS) -o bin/compiler $^
-	
+
+bin/pretty_print: src/c_lexer.yy.cpp src/c_parser.tab.cpp src/c_parser.tab.hpp src/test_parser.cpp
+	g++ $(CPPFLAGS) -o bin/compiler $^
+
+src/c_parser.tab.cpp src/c_parser.tab.hpp: src/c_parser.y
+	bison -v -d src/c_parser.y -o src/c_parser.tab.cpp
+
+src/c_lexer.yy.cpp: src/c_lexer.flex src/c_parser.tab.hpp
+	flex -o src/c_lexer.yy.cpp src/c_lexer.flex
+
+
 clean :
-	rm -f src/*.o
-	rm -f bin/*
+	rm src/*.tab.cpp
+	rm src/*.yy.cpp
