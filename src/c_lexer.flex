@@ -19,8 +19,8 @@ SLC   "//"
 
 "return" {  return RETURN; }
 
-{D}+  { return INTCONST; }
-{I} { return IDENTIFIER; }
+{D}+  { yylval.string = new std::string(yytext); return INTCONST; }
+{I} { yylval.string = new std::string(yytext); return IDENTIFIER; }
 
 ";"	{ return(';'); }
 "{" { return('{'); }
@@ -46,8 +46,9 @@ SLC   "//"
 "?"	{return('?'); }
 
 "//".* {fprintf(stderr, "Single line comment");}
+"/*"((.|[\r\n])*)?"*/" {fprintf(stderr, "Multiline comment");}
 
-[ \t\v\n\f]             { fprintf(stderr, "Whitespace\n"); }
+[ \t\v\n\f]             {/* fprintf(stderr, "Whitespace\n");*/ }
 .               { fprintf(stderr, "Skipped : %s\n", yytext); }
 %%
 
