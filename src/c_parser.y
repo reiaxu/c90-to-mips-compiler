@@ -43,7 +43,7 @@
 // %type <tu> abstract_declarator direct_abstract_declarator specifier_qualifier_list type_name
 
 %type <tu> ROOT TranslationalUnit FunctionDef CompoundStatement StatementList Statement JumpStatement DeclarationSpecifier TypeSpecifier
-%type <tu> PostfixExpr UnaryExpr PrimaryExpr 
+%type <tu> AdditiveExpr MultiplicativeExpr UnaryExpr PostfixExpr PrimaryExpr
 %type <string> Declarator DirectDeclarator
 %type <string> IDENTIFIER CONSTANT
 
@@ -77,7 +77,78 @@ DirectDeclarator: IDENTIFIER {$$ = $1;}
 
 TypeSpecifier: INT {$$ =new TypeSpec("int");}
 
-MultiplicativeExpr: UnaryExpr {}
+constant_expression
+	: conditional_expression
+	;
+
+expression
+	: assignment_expression
+// no comma sequencing expressions  | expression ',' assignment_expression
+  ;
+assignment_expression
+	: conditional_expression
+	| unary_expression assignment_operator assignment_expression
+	;
+
+conditional_expression
+	: logical_or_expression
+	| logical_or_expression '?' expression ':' conditional_expression
+	;
+
+logical_or_expression
+	: logical_and_expression
+	| logical_or_expression OR_OP logical_and_expression
+	;
+
+
+logical_and_expression
+	: inclusive_or_expression
+	| logical_and_expression AND_OP inclusive_or_expression
+	;
+
+inclusive_or_expression
+	: exclusive_or_expression
+	| inclusive_or_expression '|' exclusive_or_expression
+	;
+
+
+exclusive_or_expression
+	: and_expression
+	| exclusive_or_expression '^' and_expression
+	;
+
+and_expression
+	: equality_expression
+	| and_expression '&' equality_expression
+	;
+
+equality_expression
+	: relational_expression
+	| equality_expression EQ_OP relational_expression
+	| equality_expression NE_OP relational_expression
+	;
+
+relational_expression
+	: shift_expression
+	| relational_expression '<' shift_expression
+	| relational_expression '>' shift_expression
+	| relational_expression LE_OP shift_expression
+	| relational_expression GE_OP shift_expression
+	;
+
+
+shift_expression
+	: additive_expression
+	| shift_expression LEFT_OP additive_expression
+	| shift_expression RIGHT_OP additive_expression
+	;
+
+AdditiveExpr: MultiplicativeExpr {$$=$1;}
+          	| AdditiveExpr '+' MultiplicativeExpr {;}
+          	| AdditiveExpr '-' MultiplicativeExpr {;}
+          	;
+
+MultiplicativeExpr: UnaryExpr {$$=$1;}
                 	| MultiplicativeExpr '*' UnaryExpr {}
                 	| MultiplicativeExpr '/' UnaryExpr {}
                 	| MultiplicativeExpr '%' UnaryExpr {}
@@ -104,6 +175,19 @@ PostfixExpr: PrimaryExpr {$$=$1;}
 PrimaryExpr: CONSTANT {$$=new PrimaryExpr("int", $1);}
              |IDENTIFIER {$$ = new PrimaryExpr("identif",$1);}
              ;
+
+AssignOp: '=' {}
+        | MUL_ASSIGN {}
+       	| DIV_ASSIGN {}
+      	| MOD_ASSIGN {}
+       	| ADD_ASSIGN {}
+        | SUB_ASSIGN {}
+    	  | LEFT_ASSIGN {}
+        | RIGHT_ASSIGN {}
+        | AND_ASSIGN {}
+        | XOR_ASSIGN {}
+        | OR_ASSIGN {}
+        ;
 
 UnaryOp: '&'	{ $$ = '&'; }
         | '*'	{ $$ = '*'; }
