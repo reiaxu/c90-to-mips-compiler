@@ -68,14 +68,172 @@ Statement: JumpStatement {$$=$1;}
 JumpStatement: RETURN PrimaryExpr ';' {$$ = new JumpStat("return",$2);}
               |RETURN ';' {$$ = new JumpStat("return");}
 
-DeclarationSpecifier: TypeSpecifier {$$ = $1;}
+declaration: declaration_specifiers ';'
+          	| declaration_specifiers init_declarator_list ';'
+          	;
+
+DeclarationSpecifier: storage_class_specifier
+                  	| storage_class_specifier declaration_specifiers
+                  	| type_specifier
+                  	| type_specifier declaration_specifiers
+                  	;
+
+init_declarator_list
+	: init_declarator
+	| init_declarator_list ',' init_declarator
+	;
+
+init_declarator
+	: declarator
+	| declarator '=' initializer
+	;
+
+storage_class_specifier
+	: TYPEDEF
+	| EXTERN
+	| STATIC
+	| AUTO
+	| REGISTER
+	;
+
+TypeSpecifier: INT {$$ =new TypeSpec("int");}
+	| VOID
+	| CHAR
+	| SHORT
+	| LONG
+	| FLOAT
+	| DOUBLE
+	| SIGNED
+	| UNSIGNED
+	| struct_or_union_specifier
+	| enum_specifier
+	| TYPE_NAME
+	;
+
+struct_or_union_specifier
+	: Struct IDENTIFIER '{' struct_declaration_list '}'
+	| Struct '{' struct_declaration_list '}'
+	| Struct IDENTIFIER
+	;
+
+Struct
+	: STRUCT
+	;
+
+struct_declaration_list
+	: struct_declaration
+	| struct_declaration_list struct_declaration
+	;
+
+struct_declaration
+	: specifier_qualifier_list struct_declarator_list ';'
+	;
+
+specifier_qualifier_list
+	: type_specifier specifier_qualifier_list
+	| type_specifier
+	;
+
+struct_declarator_list
+	: struct_declarator
+	| struct_declarator_list ',' struct_declarator
+	;
+
+struct_declarator
+	: declarator
+	| ':' constant_expression
+	| declarator ':' constant_expression
+	;
+
+enum_specifier
+	: ENUM '{' enumerator_list '}'
+	| ENUM IDENTIFIER '{' enumerator_list '}'
+	| ENUM IDENTIFIER
+	;
+
+enumerator_list
+	: enumerator
+	| enumerator_list ',' enumerator
+	;
+
+enumerator
+	: IDENTIFIER
+	| IDENTIFIER '=' constant_expression
+	;
 
 Declarator: DirectDeclarator {$$=$1;}
+          | pointer direct_declarator
+          ;
 
 DirectDeclarator: IDENTIFIER {$$ = $1;}
                 | DirectDeclarator '(' ')' {$$=$1;}
+              	| '(' declarator ')'
+              	| direct_declarator '[' constant_expression ']'
+              	| direct_declarator '[' ']'
+              	| direct_declarator '(' parameter_type_list ')'
+              	| direct_declarator '(' identifier_list ')'
+              	;
 
-TypeSpecifier: INT {$$ =new TypeSpec("int");}
+pointer
+	: '*'
+	| '*' pointer
+	;
+
+
+parameter_type_list
+	: parameter_list
+	;
+
+parameter_list
+	: parameter_declaration
+	| parameter_list ',' parameter_declaration
+	;
+
+parameter_declaration
+	: declaration_specifiers declarator
+	| declaration_specifiers abstract_declarator
+	| declaration_specifiers
+	;
+
+identifier_list
+	: IDENTIFIER
+	| identifier_list ',' IDENTIFIER
+	;
+
+type_name
+	: specifier_qualifier_list
+	| specifier_qualifier_list abstract_declarator
+	;
+
+abstract_declarator
+	: pointer
+	| direct_abstract_declarator
+	| pointer direct_abstract_declarator
+	;
+
+direct_abstract_declarator
+	: '(' abstract_declarator ')'
+	| '[' ']'
+	| '[' constant_expression ']'
+	| direct_abstract_declarator '[' ']'
+	| direct_abstract_declarator '[' constant_expression ']'
+	| '(' ')'
+	| '(' parameter_type_list ')'
+	| direct_abstract_declarator '(' ')'
+	| direct_abstract_declarator '(' parameter_type_list ')'
+	;
+
+initializer
+	: assignment_expression
+	| '{' initializer_list '}'
+	| '{' initializer_list ',' '}'
+	;
+
+initializer_list
+	: initializer
+	| initializer_list ',' initializer
+	;
+
 
 constant_expression
 	: conditional_expression
@@ -83,8 +241,8 @@ constant_expression
 
 expression
 	: assignment_expression
-// no comma sequencing expressions  | expression ',' assignment_expression
   ;
+
 assignment_expression
 	: conditional_expression
 	| unary_expression assignment_operator assignment_expression
@@ -159,13 +317,13 @@ UnaryExpr: PostfixExpr {$$=$1;}
         	| DEC_OP UnaryExpr {;}
         	| UnaryOp UnaryExpr {;}
         	| SIZEOF UnaryExpr {;}
-//        	| SIZEOF '(' type_name ')' {;}
+        	| SIZEOF '(' type_name ')' {;}
         	;
 
 PostfixExpr: PrimaryExpr {$$=$1;}
-//          	| PostfixExpr '[' expression ']' {;}
+            | PostfixExpr '[' expression ']' {;}
           	| PostfixExpr '(' ')' {;}
-//          	| PostfixExpr '(' argument_expression_list ')' {;}
+            | PostfixExpr '(' argument_expression_list ')' {;}
           	| PostfixExpr '.' IDENTIFIER {;}
           	| PostfixExpr PTR_OP IDENTIFIER {;}
           	| PostfixExpr INC_OP {;}
