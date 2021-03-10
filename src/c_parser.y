@@ -42,11 +42,12 @@
 // %type <en_ass> assignment_operator
 // %type <tu> abstract_declarator direct_abstract_declarator specifier_qualifier_list type_name
 
-%type <tu> ROOT TranslationalUnit FunctionDef CompoundStatement StatementList Statement JumpStatement DeclarationSpecifier TypeSpecifier PrimaryExpr
+%type <tu> ROOT TranslationalUnit FunctionDef CompoundStatement StatementList Statement JumpStatement DeclarationSpecifier TypeSpecifier
+%type <tu> PostfixExpr UnaryExpr PrimaryExpr 
 %type <string> Declarator DirectDeclarator
-%type <string> IDENTIFIER CONSTANT 
+%type <string> IDENTIFIER CONSTANT
 
-// %type <_char> Operator
+%type <_char> UnaryOp
 
 %start ROOT
 %%
@@ -65,7 +66,7 @@ StatementList: Statement {$$=$1;}
 Statement: JumpStatement {$$=$1;}
 
 JumpStatement: RETURN PrimaryExpr ';' {$$ = new JumpStat("return",$2);}
-             | RETURN ';' {$$ = new JumpStat("return");}
+              |RETURN ';' {$$ = new JumpStat("return");}
 
 DeclarationSpecifier: TypeSpecifier {$$ = $1;}
 
@@ -76,17 +77,41 @@ DirectDeclarator: IDENTIFIER {$$ = $1;}
 
 TypeSpecifier: INT {$$ =new TypeSpec("int");}
 
+MultiplicativeExpr: UnaryExpr {}
+                	| MultiplicativeExpr '*' UnaryExpr {}
+                	| MultiplicativeExpr '/' UnaryExpr {}
+                	| MultiplicativeExpr '%' UnaryExpr {}
+                	;
+
+UnaryExpr: PostfixExpr {$$=$1;}
+        	| INC_OP UnaryExpr {;}
+        	| DEC_OP UnaryExpr {;}
+        	| UnaryOp UnaryExpr {;}
+        	| SIZEOF UnaryExpr {;}
+//        	| SIZEOF '(' type_name ')' {;}
+        	;
+
+PostfixExpr: PrimaryExpr {$$=$1;}
+//          	| PostfixExpr '[' expression ']' {;}
+          	| PostfixExpr '(' ')' {;}
+//          	| PostfixExpr '(' argument_expression_list ')' {;}
+          	| PostfixExpr '.' IDENTIFIER {;}
+          	| PostfixExpr PTR_OP IDENTIFIER {;}
+          	| PostfixExpr INC_OP {;}
+          	| PostfixExpr DEC_OP {;}
+          	;
+
 PrimaryExpr: CONSTANT {$$=new PrimaryExpr("int", $1);}
-           | IDENTIFIER {$$ = new PrimaryExpr("identif",$1); /*}
+             |IDENTIFIER {$$ = new PrimaryExpr("identif",$1);}
+             ;
 
-
-Operator: '&'	{ $$ = '&'; }
+UnaryOp: '&'	{ $$ = '&'; }
         | '*'	{ $$ = '*'; }
         | '+'	{ $$ = '+'; }
         | '-'	{ $$ = '-'; }
         | '~'	{ $$ = '~'; }
-        | '!'	{ $$ = '!'; */}
-
+        | '!'	{ $$ = '!';}
+        ;
 
 
 %%
