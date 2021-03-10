@@ -10,7 +10,7 @@ enum TokenType{
 //note that extended ASCII is up to 255
   IDENTIFIER = 256,
 //literals
-  INTCONST = 257,
+  CONSTANT = 257,
 //types
   INT = 258,
 //keywords

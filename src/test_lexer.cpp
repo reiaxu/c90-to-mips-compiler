@@ -16,7 +16,7 @@ int main(){
     if(type == IDENTIFIER){
       std::cout<<"Token seen is: IDENTIFIER"<<std::endl;
 
-    }else if( type == INTCONST ){
+    }else if( type == CONSTANT ){
       std::cout<<"Token seen is: NUMCONST"<<std::endl;
 
     }else if( type == INT){
