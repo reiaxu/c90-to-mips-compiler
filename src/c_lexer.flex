@@ -11,14 +11,12 @@ extern "C" int fileno(FILE *stream);
 void count();
 
 %}
-KEYWORD auto|break|float|signed|case|for|sizeof|char|static|if|struct|continue|inline|switch|default|int|typedef|do|long|double|register|unsigned|else|restrict|void|enum|return|volatile|extern|short|while
 
 D			[0-9]
 I			[a-zA-Z_][0-9a-zA-Z_]*
 SLC   "//"
 
 %%
-"auto"		  	{ count(); return(AUTO); }
 "break"			  { count(); return(BREAK); }
 "case"	  		{ count(); return(CASE); }
 "char"		  	{ count(); return(CHAR); }
@@ -33,12 +31,10 @@ SLC   "//"
 "if"	    		{ count(); return(IF); }
 "int"		    	{ count(); return(INT); }
 "long"			  { count(); return(LONG); }
-"register"		{ count(); return(REGISTER); }
 "return"		  { count(); return(RETURN); }
 "short"		 	  { count(); return(SHORT); }
 "signed"	  	{ count(); return(SIGNED); }
 "sizeof"  		{ count(); return(SIZEOF); }
-"static"	  	{ count(); return(STATIC); }
 "struct"		  { count(); return(STRUCT); }
 "switch"		  { count(); return(SWITCH); }
 "typedef"	  	{ count(); return(TYPEDEF); }
@@ -95,8 +91,8 @@ SLC   "//"
 "|"	      		{ count(); return('|'); }
 "?"	      		{ count(); return('?'); }
 
-"//".*                     {fprintf(stderr, "Single line comment");}
-"/*"((.|[\r\n])*)?"*/"     {fprintf(stderr, "Multiline comment");}
+"//".*                     {/*fprintf(stderr, "Single line comment");*/}
+"/*"((.|[\r\n])*)?"*/"     {/*fprintf(stderr, "Multiline comment");*/}
 
 [ \t\v\n\f]   {/* fprintf(stderr, "Whitespace\n");*/ }
 .             { fprintf(stderr, "Skipped : %s\n", yytext); }
