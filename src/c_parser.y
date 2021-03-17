@@ -92,7 +92,7 @@ IterationStatement: WHILE '(' Expr ')' Statement {;}
                   ;
 
 ExpressionStatement: ';' {;}
-                   | Expr ';' {;}
+                   | Expr ';' {$$ = new ExprStat($1);}
                    ;
 
 CompoundStatement: '{' '}' {}
@@ -103,8 +103,8 @@ CompoundStatement: '{' '}' {}
 
 JumpStatement: RETURN Expr ';' {$$ = new JumpStat("return",$2);}
              | RETURN ';' {$$ = new JumpStat("return");}
-             | CONTINUE ';' {;}
-             | BREAK ';' {;}
+             | CONTINUE ';' {$$ = new JumpStat("continue");}
+             | BREAK ';' {$$ = new JumpStat("break");}
              ;
 
 LabeledStatement: IDENTIFIER ':' Statement {;}

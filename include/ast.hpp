@@ -9,6 +9,7 @@
 #include "ast_postfixexpr.hpp"
 #include "ast_primaryexpr.hpp"
 #include "ast_jumpstat.hpp"
+#include "ast_exprstat.hpp"
 #include "ast_condexpr.hpp"
 #include "ast_assignexpr.hpp"
 // #include "ast_selectionstat.hpp"
