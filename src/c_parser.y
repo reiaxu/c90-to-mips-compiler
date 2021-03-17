@@ -348,10 +348,10 @@ PostfixExpr: PrimaryExpr {$$=$1;}
             | PostfixExpr '[' Expr ']' {;}
           	| PostfixExpr '(' ')' {;}
             | PostfixExpr '(' ArgExprList ')' {;}
-          	| PostfixExpr '.' IDENTIFIER {;}
-          	| PostfixExpr PTR_OP IDENTIFIER {;}
-          	| PostfixExpr INC_OP {;}
-          	| PostfixExpr DEC_OP {;}
+          	| PostfixExpr '.' IDENTIFIER {$$ = new PostfixExpr($1, $3, int('.'));}
+          	| PostfixExpr PTR_OP IDENTIFIER {$$ = new PostfixExpr($1, $3, 262);}
+          	| PostfixExpr INC_OP {$$ = new PostfixExpr($1, 263);}
+          	| PostfixExpr DEC_OP {$$ = new PostfixExpr($1, 264);}
           	;
 
 PrimaryExpr: CONSTANT {$$=new PrimaryExpr("int", $1);}
