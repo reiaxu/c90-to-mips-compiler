@@ -5,6 +5,7 @@
 #include "ast_functiondef.hpp"
 #include "ast_typespec.hpp"
 #include "ast_arithmeticlogic.hpp"
+#include "ast_unaryexpr.hpp"
 #include "ast_primaryexpr.hpp"
 #include "ast_jumpstat.hpp"
 

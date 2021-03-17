@@ -26,14 +26,85 @@ class ArLoExpr
 
     virtual void PrettyPrint(std::ostream &dst) const override{
       switch(optype){
+        // LEFT_OP
+        case(265):
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" << ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
 
-      //  case 1:
+        // RIGHT_OP
+        case(266):
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" >> ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
 
-      //    break;
+        // LE_OP
+        case(267):
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" <= ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
 
-      //  case 2:
+        // GE_OP
+        case(268):
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" >= ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
 
-      //    break;
+        // EQ_OP
+        case(269):
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" == ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
+
+        // NE_OP
+        case(270):
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" != ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
+
+        // AND_OP
+        case(271):
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" && ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
+
+        // OR_OP
+        case(272):
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" || ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
+
+        default:
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" "<<char(optype)<<" ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+          break;
 
       }
     }

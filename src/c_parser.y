@@ -289,57 +289,57 @@ CondExpr: LogicalORExpr {$$=$1;}
       	;
 
 LogicalORExpr: LogicalANDExpr {$$=$1;}
-             | LogicalORExpr OR_OP LogicalANDExpr {;}
+             | LogicalORExpr OR_OP LogicalANDExpr {$$ = new ArLoExpr($1, $3, 272);}
              ;
 
 LogicalANDExpr: ORExpr {$$=$1;}
-            	| LogicalANDExpr AND_OP ORExpr {;}
+            	| LogicalANDExpr AND_OP ORExpr {$$ = new ArLoExpr($1, $3, 271);}
             	;
 
 ORExpr: XORExpr {$$=$1;}
-    	| ORExpr '|' XORExpr {;}
+    	| ORExpr '|' XORExpr {$$ = new ArLoExpr($1, $3, int('|'));}
     	;
 
 XORExpr: ANDExpr {$$=$1;}
-       | XORExpr '^' ANDExpr {;}
+       | XORExpr '^' ANDExpr {$$ = new ArLoExpr($1, $3, int('^'));}
        ;
 
 ANDExpr: EqualityExpr  {$$=$1;}
-    	 | ANDExpr '&' EqualityExpr {;}
+    	 | ANDExpr '&' EqualityExpr {$$ = new ArLoExpr($1, $3, int('&'));}
        ;
 
 EqualityExpr: RelationalExpr {$$=$1;}
-          	| EqualityExpr EQ_OP RelationalExpr {;}
-          	| EqualityExpr NE_OP RelationalExpr {;}
+          	| EqualityExpr EQ_OP RelationalExpr {$$ = new ArLoExpr($1, $3, 269);}
+          	| EqualityExpr NE_OP RelationalExpr {$$ = new ArLoExpr($1, $3, 270);}
           	;
 
 RelationalExpr: ShiftExpr {$$=$1;}
-              | RelationalExpr '<' ShiftExpr {;}
-              | RelationalExpr '>' ShiftExpr {;}
-              | RelationalExpr LE_OP ShiftExpr {;}
-              | RelationalExpr GE_OP ShiftExpr {;}
+              | RelationalExpr '<' ShiftExpr {$$ = new ArLoExpr($1, $3, int('<'));}
+              | RelationalExpr '>' ShiftExpr {$$ = new ArLoExpr($1, $3, int('>'));}
+              | RelationalExpr LE_OP ShiftExpr {$$ = new ArLoExpr($1, $3, 267);}
+              | RelationalExpr GE_OP ShiftExpr {$$ = new ArLoExpr($1, $3, 268);}
               ;
 
 ShiftExpr: AdditiveExpr {$$=$1;}
-	       | ShiftExpr LEFT_OP AdditiveExpr {;}
-	       | ShiftExpr RIGHT_OP AdditiveExpr {;}
+	       | ShiftExpr LEFT_OP AdditiveExpr {$$ = new ArLoExpr($1, $3, 265);}
+	       | ShiftExpr RIGHT_OP AdditiveExpr {$$ = new ArLoExpr($1, $3, 266);}
 	       ;
 
 AdditiveExpr: MultiplicativeExpr {$$=$1;}
-          	| AdditiveExpr '+' MultiplicativeExpr {;}
-          	| AdditiveExpr '-' MultiplicativeExpr {;}
+          	| AdditiveExpr '+' MultiplicativeExpr {$$ = new ArLoExpr($1, $3, int('+'));}
+          	| AdditiveExpr '-' MultiplicativeExpr {$$ = new ArLoExpr($1, $3, int('-'));}
           	;
 
 MultiplicativeExpr: UnaryExpr {$$=$1;}
-                	| MultiplicativeExpr '*' UnaryExpr {}
-                	| MultiplicativeExpr '/' UnaryExpr {}
-                	| MultiplicativeExpr '%' UnaryExpr {}
+                	| MultiplicativeExpr '*' UnaryExpr {$$ = new ArLoExpr($1, $3, int('*'));}
+                	| MultiplicativeExpr '/' UnaryExpr {$$ = new ArLoExpr($1, $3, int('/'));}
+                	| MultiplicativeExpr '%' UnaryExpr {$$ = new ArLoExpr($1, $3, int('%'));}
                 	;
 
 UnaryExpr: PostfixExpr {$$=$1;}
-        	| INC_OP UnaryExpr {;}
-        	| DEC_OP UnaryExpr {;}
-        	| UnaryOp UnaryExpr {;}
+        	| INC_OP UnaryExpr {$$ = new UnaryExpr(263, $2);}
+        	| DEC_OP UnaryExpr {$$ = new UnaryExpr(264, $2);}
+        	| UnaryOp UnaryExpr {$$ = new UnaryExpr(int($1), $2);}
         	| SIZEOF UnaryExpr {;}
         	| SIZEOF '(' TypeName ')' {;}
         	;
