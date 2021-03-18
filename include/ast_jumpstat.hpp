@@ -11,30 +11,42 @@ class JumpStat
       :public TranslationalUnit{
   private:
   std::string jump;
-  TransUnitPtr primaryexpr=0;
+  TransUnitPtr expr=0;
 
   protected:
 
 public:
   JumpStat(std::string _jump): jump(_jump){}
-  JumpStat(std::string _jump, TransUnitPtr _primaryexpr)
+  JumpStat(std::string _jump, TransUnitPtr _expr)
   : jump(_jump)
-  ,primaryexpr(_primaryexpr)
+  ,expr(_expr)
   {}
 
   virtual ~JumpStat(){
-    delete primaryexpr;
+    delete expr;
   }
 
   virtual void PrettyPrint(std::ostream &dst) const override{
-    if(primaryexpr==0){
+    if(expr==0){
       dst<<jump<<';';
     }else{
       dst<<jump<<' ';
-      primaryexpr->PrettyPrint(dst);
+      expr->PrettyPrint(dst);
       dst<<';';
     }
   }
+
+  virtual void toMIPS(std::ostream &dst) const override{
+    if(expr==0){
+      if(jump=="return"){
+        dst<<"nop"<<std::endl;
+      }
+    }else{
+      std::string destReg = "$2";
+      expr->toMIPS(dst,destReg);
+    }
+  }
+
 };
 
 #endif

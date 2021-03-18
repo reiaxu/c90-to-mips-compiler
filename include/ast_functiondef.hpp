@@ -11,40 +11,46 @@ class FunctionDef
       :public TranslationalUnit{
 
   private:
-    TransUnitPtr type;
-    std::string* identif;
-    TransUnitPtr jumpstat;
+    TransUnitPtr decspec;
+    std::string* declarator;
+    TransUnitPtr compoundstat;
 
   protected:
 
   public:
-   FunctionDef(TransUnitPtr _type,
-      std::string* _identif,
-      TransUnitPtr _jumpstat)
+   FunctionDef(TransUnitPtr _decspec,
+      std::string* _declarator,
+      TransUnitPtr _compoundstat)
 
-      :type(_type)
-      ,identif(_identif)
-      ,jumpstat(_jumpstat)
+      :decspec(_decspec)
+      ,declarator(_declarator)
+      ,compoundstat(_compoundstat)
       {}
 
     virtual ~FunctionDef(){
-      delete type;
-      delete identif;
-      delete jumpstat;
+      delete decspec;
+      delete declarator;
+      delete compoundstat;
     }
 
     virtual void PrettyPrint(std::ostream &dst) const override{
-      type->PrettyPrint(dst);
-      dst<<" "<<(*identif)<<"(){";
+      decspec->PrettyPrint(dst);
+      dst<<" "<<(*declarator)<<"(){";
       dst<<std::endl;
-      jumpstat->PrettyPrint(dst);
+      compoundstat->PrettyPrint(dst);
       dst<<std::endl;
       dst<<"}";
     }
 
+    virtual void toMIPS(std::ostream &dst) const override{
+      dst<<*declarator<<":"<<std::endl;
+      compoundstat->toMIPS(dst);
+      dst<<"j $31"<<std::endl;
+      dst<<"nop"<<std::endl;
+
+    }
 
 };
 
-//typedef FunctionDef* FuncDefPtr;
 
 #endif

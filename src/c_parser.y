@@ -212,7 +212,7 @@ Declaration: DeclarationSpec ';' {;}
            ;
 
 DeclarationSpec: TypeSpec {$$=$1;}
-               | TypeSpec DeclarationSpec {;}
+               | TypeSpec DeclarationSpec {; }
                | StorageClassSpec {$$=$1;}
                | StorageClassSpec DeclarationSpec {;}
                ;

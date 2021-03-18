@@ -18,12 +18,12 @@ public:
 
 
     ~UnaryExpr() override{
-        
+
         delete unaryexpr;
     }
 
     virtual void PrettyPrint(std::ostream &dst) const override{
-        
+
         if(prefix<258){
             dst<<char(prefix);
             unaryexpr->PrettyPrint(dst);
@@ -41,6 +41,8 @@ public:
             }
         }
     }
+
+    virtual void toMIPS(std::ostream &dst, std::string destReg) const override;
 
 };
 

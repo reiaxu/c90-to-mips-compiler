@@ -31,6 +31,14 @@ class PrimaryExpr
       }
     }
 
+    virtual void toMIPS(std::ostream &dst, std::string destReg) const override{
+      if(type=="int"){
+        dst<<"li"<<' '+destReg+' '<<*(val);
+      }else if(type=="indentif"){
+        //TO-DO
+      }
+    }
+
 };
 
 #endif

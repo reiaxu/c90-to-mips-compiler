@@ -10,7 +10,7 @@
 
 class PostfixExpr
     : public TranslationalUnit{
-    
+
     private:
     TransUnitPtr postfixptr;
     std::string* identif;
@@ -20,7 +20,7 @@ public:
     PostfixExpr(TransUnitPtr postfixptr_, int op_):postfixptr(postfixptr_),op(op_){}
     PostfixExpr(TransUnitPtr postfixptr_, std::string* identif_, int op_):postfixptr(postfixptr_),identif(identif_),op(op_){}
 
-   
+
     // PostfixExpr(std::string* t, TransUnitPtr p):type(t),ptr(p){} //case 0,2,6,7
     // PostfixExpr(std::string* t, TransUnitPtr p, std::string * i):type(t),ptr(p), id(i){} //case 4,5
     // PostfixExpr(std::string* t, TransUnitPtr p, TransUnitPtr o):type(t),ptr(p), op(o){} //case 1,3
@@ -31,11 +31,11 @@ public:
     }
 
     virtual void PrettyPrint(std::ostream &dst) const override{
-        
+
         if(op == 263){
             postfixptr->PrettyPrint(dst);
             dst<<"++";
-        } 
+        }
         else if (op == 264) {
             postfixptr->PrettyPrint(dst);
             dst<<"--";
@@ -46,6 +46,9 @@ public:
             dst<<(*identif);
         }
     }
+
+    virtual void toMIPS(std::ostream &dst, std::string destReg) const override;
+
 
 };
 

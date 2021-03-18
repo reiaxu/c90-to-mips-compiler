@@ -9,6 +9,10 @@ bin/compiler : src/compiler.cpp
 	mkdir -p bin
 	g++ $(CPPFLAGS) -o bin/compiler $^
 
+bin/toMIPS: src/c_lexer.yy.cpp src/c_parser.tab.cpp src/c_parser.tab.hpp include/*
+	make src/c_parser.tab.cpp src/c_parser.tab.hpp src/c_lexer.yy.cpp
+	g++ $(CPPFLAGS) src/test_toMIPS.cpp -o bin/toMIPS $^
+
 bin/pretty_print: src/c_lexer.yy.cpp src/c_parser.tab.cpp src/c_parser.tab.hpp include/*
 	make src/c_parser.tab.cpp src/c_parser.tab.hpp src/c_lexer.yy.cpp
 	g++ $(CPPFLAGS) src/test_parser.cpp -o bin/pretty_print $^

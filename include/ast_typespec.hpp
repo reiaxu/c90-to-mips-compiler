@@ -18,12 +18,14 @@ class TypeSpec
     TypeSpec(const std::string &_type)
     :type(_type)
     {}
-      
+
     virtual ~TypeSpec(){}
 
     virtual void PrettyPrint(std::ostream &dst) const override{
       dst<<type;
     }
+
+    virtual void toMIPS(std::ostream &dst, std::string destReg) const;
 
 };
 

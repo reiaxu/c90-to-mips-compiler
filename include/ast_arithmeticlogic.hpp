@@ -108,6 +108,8 @@ class ArLoExpr
 
       }
     }
+
+    virtual void toMIPS(std::ostream &dst, std::string destReg) const override;
   };
 
 #endif
