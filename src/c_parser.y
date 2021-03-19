@@ -80,25 +80,25 @@ Statement: LabeledStatement {$$=$1;}
          | SelectionStatement {$$=$1;}
          ;
 
-SelectionStatement: IF '(' Expr ')' Statement {;}
-                  | IF '(' Expr ')' Statement ELSE Statement {;}
-                  | SWITCH '(' Expr ')' Statement {;}
+SelectionStatement: IF '(' Expr ')' Statement {$$ = new SelStat("if", $3, $5);}
+                  | IF '(' Expr ')' Statement ELSE Statement {$$ = new SelStat("ifelse", $3, $5, $7);}
+                  | SWITCH '(' Expr ')' Statement {$$ = new SelStat("switch", $3, $5);}
                   ;
 
-IterationStatement: WHILE '(' Expr ')' Statement {;}
-                  | DO Statement WHILE '(' Expr ')' ';' {;}
-                  | FOR '(' ExpressionStatement ExpressionStatement ')' Statement {;}
-                  | FOR '(' ExpressionStatement ExpressionStatement Expr')' Statement {;}
+IterationStatement: WHILE '(' Expr ')' Statement {$$ = new IterStat("while", $3, $5);}
+                  | DO Statement WHILE '(' Expr ')' ';' {$$ = new IterStat("do", $2, $5);}
+                  | FOR '(' ExpressionStatement ExpressionStatement ')' Statement {$$ = new IterStat($3, $4, $6);}
+                  | FOR '(' ExpressionStatement ExpressionStatement Expr')' Statement {$$ = new IterStat($3, $4, $5, $7);}
                   ;
 
 ExpressionStatement: ';' {;}
                    | Expr ';' {$$ = new ExprStat($1);}
                    ;
 
-CompoundStatement: '{' '}' {}
-                 | '{' StatementList '}' {$$=$2;}
-                 | '{' DeclarationList '}' {$$=$2;}
-                 | '{' DeclarationList StatementList '}' {;}
+CompoundStatement: '{' '}' {;}
+                 | '{' StatementList '}' {$$=new CompoundStat(NULL, $2);}
+                 | '{' DeclarationList '}' {$$=new CompoundStat($2, NULL);}
+                 | '{' DeclarationList StatementList '}' {$$=new CompoundStat($2, $3);}
                  ;
 
 JumpStatement: RETURN Expr ';' {$$ = new JumpStat("return",$2);}

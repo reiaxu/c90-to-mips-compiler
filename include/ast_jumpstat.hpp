@@ -28,11 +28,11 @@ public:
 
   virtual void PrettyPrint(std::ostream &dst) const override{
     if(primaryexpr==0){
-      dst<<jump<<';';
+      dst<<jump<<";";
     }else{
-      dst<<jump<<' ';
+      dst<<jump<<" ";
       primaryexpr->PrettyPrint(dst);
-      dst<<';';
+      dst<<";";
     }
   }
 };
