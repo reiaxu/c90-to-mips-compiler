@@ -15,7 +15,9 @@
 #include "ast_compoundstat.hpp"
 #include "ast_condexpr.hpp"
 #include "ast_assignexpr.hpp"
-// #include "ast_selectionstat.hpp"
+#include "ast_paramlist.hpp"
+#include "ast_directdecl.hpp"
+#include "ast_argexprlist.hpp"
 
 extern const TranslationalUnit* parseAST();
 

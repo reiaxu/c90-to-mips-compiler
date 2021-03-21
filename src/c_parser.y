@@ -85,10 +85,10 @@ SelectionStatement: IF '(' Expr ')' Statement {$$ = new SelStat("if", $3, $5);}
                   | SWITCH '(' Expr ')' Statement {$$ = new SelStat("switch", $3, $5);}
                   ;
 
-IterationStatement: WHILE '(' Expr ')' Statement {$$ = new IterStat("while", $3, $5);}
-                  | DO Statement WHILE '(' Expr ')' ';' {$$ = new IterStat("do", $2, $5);}
-                  | FOR '(' ExpressionStatement ExpressionStatement ')' Statement {$$ = new IterStat($3, $4, $6);}
-                  | FOR '(' ExpressionStatement ExpressionStatement Expr')' Statement {$$ = new IterStat($3, $4, $5, $7);}
+IterationStatement: WHILE '(' Expr ')' Statement {$$ = new IterStat(305, $3, $5);}
+                  | DO Statement WHILE '(' Expr ')' ';' {$$ = new IterStat(306, $2, $5);}
+                  | FOR '(' ExpressionStatement ExpressionStatement ')' Statement {$$ = new IterStat(307, $3, $4, NULL, $6);}
+                  | FOR '(' ExpressionStatement ExpressionStatement Expr')' Statement {$$ = new IterStat(307, $3, $4, $5, $7);}
                   ;
 
 ExpressionStatement: ';' {;}
@@ -230,7 +230,7 @@ Declarator: DirectDeclarator {$$=$1;}
           ;
 
 DirectDeclarator: IDENTIFIER {$$ = $1;}
-  | DirectDeclarator '(' ')' {$$=$1;}
+  | DirectDeclarator '(' ')' {;}
   | '(' Declarator ')' {;}
   | DirectDeclarator '[' ConstantExpr ']' {;}
   | DirectDeclarator '[' ']' {;}
@@ -346,7 +346,7 @@ UnaryExpr: PostfixExpr {$$=$1;}
 
 PostfixExpr: PrimaryExpr {$$=$1;}
             | PostfixExpr '[' Expr ']' {;}
-          	| PostfixExpr '(' ')' {;}
+          	| PostfixExpr '(' ')' {$$ = new PostfixExpr($1, 0);}
             | PostfixExpr '(' ArgExprList ')' {;}
           	| PostfixExpr '.' IDENTIFIER {$$ = new PostfixExpr($1, $3, int('.'));}
           	| PostfixExpr PTR_OP IDENTIFIER {$$ = new PostfixExpr($1, $3, 262);}
@@ -357,7 +357,7 @@ PostfixExpr: PrimaryExpr {$$=$1;}
 PrimaryExpr: CONSTANT {$$=new PrimaryExpr("int", $1);}
            | IDENTIFIER {$$ = new PrimaryExpr("identif",$1);}
            | STRING_LITERAL {$$ = new PrimaryExpr("string",$1);}
-           | '(' Expr ')' {;}
+           | '(' Expr ')' {$$ = new PrimaryExpr("expr",$2);}
            ;
 
 AssignOp: '=' {$$=int('=');}
