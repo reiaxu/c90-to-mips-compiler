@@ -47,7 +47,39 @@ public:
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      int a = 3;
+      std::string unarytemp = "$t0";
+      switch(prefix){
+        case(int('!')):
+          //unsure abt implementation, didnt include addiu like in godbolt
+          unaryexpr->toMIPS(dst, unarytemp, context);
+          //treat it as unsiged so that it just takes absolute value! in that way only 0 will be less than 1
+          o_sltiu(dst, destReg, unarytemp, "1");
+        break;
+
+        case(int('~')):
+          unaryexpr->toMIPS(dst, unarytemp, context);
+          o_subu(dst, destReg, "$0", unarytemp);
+        break;
+
+        case(int('-')):
+          unaryexpr->toMIPS(dst, unarytemp, context);
+          o_subu(dst, destReg, "$0", unarytemp);
+        break;
+
+        case(int('+')):
+          //kinda like a do nothing for unary exprs?
+          unaryexpr->toMIPS(dst, destReg, context);
+        break;
+
+        case(int('*')):
+          //TODO: pointer stuff
+        break;
+
+        case(int('&')):
+          //TODO: addressof stuff? naive implementation just li destReg getOffset($fp)?
+
+        break;
+
       /*if(unaryexpr->getType()=="int"){
         switch(prefix){
           case(int(!)):
@@ -73,8 +105,8 @@ public:
           case(int(&)):
             //TODO
           break;
-          }
         }*/
+        }
       }
 
 };
