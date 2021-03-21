@@ -65,11 +65,11 @@ ExternalDec: FunctionDef {$$=$1;}
            ;
 
 FunctionDef: DeclarationSpec Declarator CompoundStatement {$$ = new FunctionDef($1, $2, $3);}
-           | Declarator CompoundStatement {;}
+           | Declarator CompoundStatement {$$ = new FunctionDef(NULL, $1, $2);}
            ;
 
 StatementList: Statement {$$=$1;}
-             | StatementList Statement {;}
+             | StatementList Statement {$$ = new StatList($1, $2);}
              ;
 
 Statement: LabeledStatement {$$=$1;}
