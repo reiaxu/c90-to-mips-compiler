@@ -106,6 +106,10 @@ inline void o_sra(std::ostream &dst, std::string dReg,std::string sReg,std::stri
     dst<<"sra "+dReg+','+sReg+','+tReg<<std::endl;
 }
 
+inline void o_sltiu(std::ostream &dst, std::string dReg,std::string sReg,std::string imm){
+    dst<<"sltiu "+dReg+','+sReg+','+imm<<std::endl;
+}
+
 inline void o_sltu(std::ostream &dst, std::string dReg,std::string sReg,std::string tReg){
     dst<<"sltu "+dReg+','+sReg+','+tReg<<std::endl;
 }
