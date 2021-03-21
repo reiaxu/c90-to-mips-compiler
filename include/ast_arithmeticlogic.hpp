@@ -122,10 +122,34 @@ class ArLoExpr
         o_and(dst, destReg, left, right);
         break;
 
+        case((int)'|'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_or(dst, destReg, left, right);
+        break;
+
+        case((int)'^'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_xor(dst, destReg, left, right);
+        break;
+
         case((int)'*'):
         lhs->toMIPS(dst, left, context);
         rhs->toMIPS(dst, right, context);
         o_mul(dst, destReg, left, right);
+        break;
+
+        case((int)'/'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_div(dst, destReg, left, right);
+        break;
+
+        case((int)'%'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_modu(dst, destReg, left, right);
         break;
 
         case((int)'+'):
@@ -140,28 +164,36 @@ class ArLoExpr
         o_sub(dst, destReg, left, right);
         break;
 
-        case((int)'~'):
-        //NA?
+        case((int)'<'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_slt(dst, destReg, left, right);
+        break;
+
+        case((int)'>'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_slt(dst, destReg, right, left);
         break;
 
         // LEFT_OP
         case(265):
         lhs->toMIPS(dst, left, context);
         rhs->toMIPS(dst, right, context);
-        dst<<"sll"<<' '+destReg+' '<<lhs<<' '<<rhs;
+        o_sll(dst, destReg, left, right);
         break;
 
         // RIGHT_OP
         case(266):
         lhs->toMIPS(dst, left, context);
         rhs->toMIPS(dst, right, context);
-        dst<<"sra"<<' '+destReg+' '<<lhs<<' '<<rhs;
+        o_srl(dst, destReg, left, right);
         break;
 
         // LE_OP
        case(267):
 
-        break;
+       break;
 
         // GE_OP
         case(268):
@@ -170,12 +202,16 @@ class ArLoExpr
 
         // EQ_OP
         case(269):
-
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_eq(dst, destReg, left, right);
         break;
 
         // NE_OP
         case(270):
-
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_neq(dst, destReg, left, right);
         break;
 
         // AND_OP
@@ -189,12 +225,12 @@ class ArLoExpr
         break;
 
         default:
-          dst<<"(";
+          /*dst<<"(";
           lhs->PrettyPrint(dst);
           dst<<" "<<char(optype)<<" ";
           rhs->PrettyPrint(dst);
-          dst<<")";
-       break;
+          dst<<")";*/
+        break;
 
       }
     }
