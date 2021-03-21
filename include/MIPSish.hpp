@@ -134,7 +134,7 @@ inline void o_eq(std::ostream &dst, std::string dReg,std::string sReg,std::strin
 
 inline void o_neq(std::ostream &dst, std::string dReg,std::string sReg,std::string tReg){
     dst<<"xor "+dReg+','+sReg+','+tReg<<std::endl;
-    dst<<"slt "+dReg+','+"$0"+','+dReg<<std::endl;
+    dst<<"sltu "+dReg+','+"$0"+','+dReg<<std::endl;
 }
 
 inline void o_xor(std::ostream &dst, std::string dReg,std::string sReg,std::string tReg){
