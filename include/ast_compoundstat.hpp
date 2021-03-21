@@ -24,19 +24,22 @@ public:
   }
 
   virtual void PrettyPrint(std::ostream &dst) const override{
-    if (decl == NULL) {
+    if ((decl == NULL) && (statl == NULL)) {
+        dst<<"{} ";
+    }
+    else if (decl == NULL) {
         dst<<"{";
         dst<<std::endl;
         statl->PrettyPrint(dst);
         dst<<std::endl;
-        dst<<"}";
+        dst<<"} ";
     }
     else if (statl == NULL) {
         dst<<"{";
         dst<<std::endl;
         decl->PrettyPrint(dst);
         dst<<std::endl;
-        dst<<"}";
+        dst<<"} ";
     }
     else { 
         dst<<"{";
@@ -45,7 +48,7 @@ public:
         dst<<" ";
         statl->PrettyPrint(dst);
         dst<<std::endl;
-        dst<<"}";
+        dst<<"} ";
     }
   }
 };

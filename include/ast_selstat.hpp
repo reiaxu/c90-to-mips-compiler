@@ -10,7 +10,7 @@
 class SelStat
       :public TranslationalUnit{
   private:
-  std::string ifstat;
+  int op;
   TransUnitPtr expr;
   TransUnitPtr stat1;
   TransUnitPtr stat2;
@@ -18,8 +18,8 @@ class SelStat
   protected:
 
 public:
-  SelStat(std::string if_, TransUnitPtr expr_, TransUnitPtr stat1_): ifstat(if_), expr(expr_), stat1(stat1_){}
-  SelStat(std::string if_, TransUnitPtr expr_, TransUnitPtr stat1_, TransUnitPtr stat2_): ifstat(if_), expr(expr_), stat1(stat1_), stat2(stat2_){}
+  SelStat(int op_, TransUnitPtr expr_, TransUnitPtr stat1_): op(op_), expr(expr_), stat1(stat1_){}
+  SelStat(int op_, TransUnitPtr expr_, TransUnitPtr stat1_, TransUnitPtr stat2_): op(op_), expr(expr_), stat1(stat1_), stat2(stat2_){}
 
   virtual ~SelStat(){
     delete expr;
@@ -28,13 +28,13 @@ public:
   }
 
   virtual void PrettyPrint(std::ostream &dst) const override{
-    if(ifstat=="if"){
+    if(op==302){
       dst<<"if (";
       expr->PrettyPrint(dst);
       dst<<") ";
       stat1->PrettyPrint(dst);
     }
-    else if (ifstat=="ifelse"){
+    else if (op==303){
       dst<<"if (";
       expr->PrettyPrint(dst);
       dst<<") ";
@@ -43,11 +43,10 @@ public:
       dst<<" else ";
       stat2->PrettyPrint(dst);
     }
-    else if (ifstat=="switch"){
+    else if (op==304){
       dst<<"switch (";
       expr->PrettyPrint(dst);
       dst<<") ";
-      dst<<std::endl;
       stat1->PrettyPrint(dst);
     }
   }
