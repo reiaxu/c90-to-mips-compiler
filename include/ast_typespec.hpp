@@ -2,6 +2,7 @@
 #define ast_typespec_hpp
 
 #include"ast_transalationalunit.hpp"
+#include "context.hpp"
 
 #include<string>
 #include<map>
@@ -25,7 +26,10 @@ class TypeSpec
       dst<<type;
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg) const;
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+        //notsure
+        dst<<"madri"<<std::endl;
+    }
 
 };
 

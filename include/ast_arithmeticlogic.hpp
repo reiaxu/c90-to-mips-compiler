@@ -2,6 +2,8 @@
 #define ast_arithmeticlogic_hpp
 
 #include"ast_transalationalunit.hpp"
+#include "context.hpp"
+#include "MIPSish.hpp"
 
 #include<string>
 #include<map>
@@ -109,7 +111,93 @@ class ArLoExpr
       }
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg) const override;
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+      std::string left = "$t0";
+      std::string right = "$t1";
+      switch(optype){
+
+        case((int)'&'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_and(dst, destReg, left, right);
+        break;
+
+        case((int)'*'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_mul(dst, destReg, left, right);
+        break;
+
+        case((int)'+'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_add(dst, destReg, left, right);
+        break;
+
+        case((int)'-'):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_sub(dst, destReg, left, right);
+        break;
+
+        case((int)'~'):
+        //NA?
+        break;
+
+        // LEFT_OP
+        case(265):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        dst<<"sll"<<' '+destReg+' '<<lhs<<' '<<rhs;
+        break;
+
+        // RIGHT_OP
+        case(266):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        dst<<"sra"<<' '+destReg+' '<<lhs<<' '<<rhs;
+        break;
+
+        // LE_OP
+       case(267):
+
+        break;
+
+        // GE_OP
+        case(268):
+
+        break;
+
+        // EQ_OP
+        case(269):
+
+        break;
+
+        // NE_OP
+        case(270):
+
+        break;
+
+        // AND_OP
+        case(271):
+
+        break;
+
+        // OR_OP
+        case(272):
+
+        break;
+
+        default:
+          dst<<"(";
+          lhs->PrettyPrint(dst);
+          dst<<" "<<char(optype)<<" ";
+          rhs->PrettyPrint(dst);
+          dst<<")";
+       break;
+
+      }
+    }
   };
 
 #endif

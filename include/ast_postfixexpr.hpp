@@ -2,6 +2,8 @@
 #define ast_postfixexpr_hpp
 
 #include"ast_transalationalunit.hpp"
+#include "MIPSish.hpp"
+#include "context.hpp"
 
 #include<string>
 #include<map>
@@ -47,7 +49,9 @@ public:
         }
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg) const override;
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+      int a = 3;
+    };
 
 
 };

@@ -2,6 +2,9 @@
 #define ast_assignexpr_hpp
 
 #include "ast_transalationalunit.hpp"
+#include "MIPSish.hpp"
+#include "context.hpp"
+
 #include <string>
 #include<map>
 #include<iostream>
@@ -28,6 +31,10 @@ public:
             dst<<" "<<char(op)<<" ";
             assexpr->PrettyPrint(dst);
     }
+
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+      int a = 3;
+    };
 
 };
 

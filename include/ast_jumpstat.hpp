@@ -7,11 +7,14 @@
 #include<map>
 #include<iostream>
 
+#include "context.hpp"
+#include "MIPSish.hpp"
+
 class JumpStat
       :public TranslationalUnit{
   private:
   std::string jump;
-  TransUnitPtr expr=0;
+  TransUnitPtr expr = 0;
 
   protected:
 
@@ -36,14 +39,14 @@ public:
     }
   }
 
-  virtual void toMIPS(std::ostream &dst) const override{
+  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
     if(expr==0){
       if(jump=="return"){
-        dst<<"nop"<<std::endl;
+        o_nop(dst);
       }
     }else{
       std::string destReg = "$2";
-      expr->toMIPS(dst,destReg);
+      expr->toMIPS(dst,destReg, context);
     }
   }
 

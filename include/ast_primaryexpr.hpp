@@ -7,11 +7,15 @@
 #include<map>
 #include<iostream>
 
+#include "context.hpp"
+#include "MIPSish.hpp"
+
+
 class PrimaryExpr
       :public TranslationalUnit{
   private:
     std::string type;
-    std::string* val;
+    const std::string* val;
 
   protected:
 
@@ -31,11 +35,17 @@ class PrimaryExpr
       }
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg) const override{
+    /*const std::string getType(){
+      return type;
+    }*/
+
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
       if(type=="int"){
-        dst<<"li"<<' '+destReg+' '<<*(val);
+        o_li(dst, destReg, *(val));
       }else if(type=="indentif"){
-        //TO-DO
+        std::string offset = std::to_string(context.getOffset(*val));
+        o_lw(dst, destReg, offset,"$fp");
+        o_nop(dst);
       }
     }
 

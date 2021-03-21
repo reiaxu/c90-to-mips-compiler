@@ -2,6 +2,9 @@
 #define ast_unaryexpr_hpp
 
 #include "ast_transalationalunit.hpp"
+#include "MIPSish.hpp"
+#include "context.hpp"
+
 #include <string>
 #include<map>
 #include<iostream>
@@ -21,6 +24,7 @@ public:
 
         delete unaryexpr;
     }
+
 
     virtual void PrettyPrint(std::ostream &dst) const override{
 
@@ -42,7 +46,36 @@ public:
         }
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg) const override;
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+      int a = 3;
+      /*if(unaryexpr->getType()=="int"){
+        switch(prefix){
+          case(int(!)):
+            dst<<"li"<<' '+destReg+' '<<!(*val);
+          break;
+
+          case(int(~)):
+            dst<<"li"<<' '+destReg+' '<<~(*val);
+          break;
+
+          case(int(-)):
+            dst<<"li"<<' '+destReg+' '<<-(*val);
+          break;
+
+          case(int(+)):
+            dst<<"li"<<' '+destReg+' '<<(*val);
+          break;
+
+          case(int(*)):
+            //TODO
+          break;
+
+          case(int(&)):
+            //TODO
+          break;
+          }
+        }*/
+      }
 
 };
 

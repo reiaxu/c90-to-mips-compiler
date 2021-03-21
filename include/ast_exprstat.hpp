@@ -2,6 +2,7 @@
 #define ast_exprstat_hpp
 
 #include"ast_transalationalunit.hpp"
+#include "MIPSish.hpp"
 
 #include<string>
 #include<map>
@@ -26,6 +27,11 @@ public:
     expr->PrettyPrint(dst);
     dst<<';';
   }
+
+  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+    //do something
+    int a = 3;
+  };
 };
 
 #endif
