@@ -27,12 +27,14 @@ public:
         if (dlist == NULL){
             dspec->PrettyPrint(dst);
             dst<<"; ";
+            dst<<std::endl;
         }
         else {
             dspec->PrettyPrint(dst);
             dst<<" ";
             dlist->PrettyPrint(dst);
             dst<<"; ";
+            dst<<std::endl;
         }
 
     }

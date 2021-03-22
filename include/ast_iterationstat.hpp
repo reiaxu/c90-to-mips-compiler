@@ -43,6 +43,7 @@ public:
       dst<<" while (";
       expr->PrettyPrint(dst);
       dst<<");";
+      dst<<std::endl;
     }
     else if (op==307){
       if (expr==NULL){
