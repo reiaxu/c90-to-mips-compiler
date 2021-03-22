@@ -16,10 +16,10 @@
 //#include "ast_labeledstat.hpp"
 #include "ast_condexpr.hpp"
 #include "ast_assignexpr.hpp"
-//#include "ast_paramlist.hpp"
-//#include "ast_directdecl.hpp"
-//#include "ast_paramdecl.hpp"
-//#include "ast_argexprlist.hpp"
+#include "ast_paramlist.hpp"
+#include "ast_directdecl.hpp"
+#include "ast_paramdecl.hpp"
+#include "ast_argexprlist.hpp"
 #include "ast_statementlist.hpp"
 
 extern const TranslationalUnit* parseAST();

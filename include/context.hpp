@@ -16,6 +16,7 @@ struct type_pos{
 
 class Bindings{
   private:
+    int curr_stack_size = 0;
     std::string frame_id;
     int stack_frame;
     std::unordered_map< std::string,type_pos> var_bindings;
@@ -26,15 +27,20 @@ class Bindings{
       //free memory with type_pos.type?
     };
 
-    void InsertBinding(const std::string _name,std::string _type, int _stackpos){
+    void InsertBinding(const std::string _name,std::string _type){
       type_pos varinfo;
+      curr_stack_size += 4;
       varinfo.type = _type;
-      varinfo.stack_offset = _stackpos;
+      varinfo.stack_offset = curr_stack_size;
       var_bindings[_name] = varinfo;
     }
 
     const int getOffset(const std::string _name){
       return var_bindings[_name].stack_offset;
+    }
+
+    const int getNumVar(){
+      return var_bindings.size();
     }
 
 };
