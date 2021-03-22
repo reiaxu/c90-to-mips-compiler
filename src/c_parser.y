@@ -2,10 +2,12 @@
   #include "../include/ast.hpp"
   #include <cassert>
   #include <string>
+  #include <fstream>
 
 
 
   extern const TranslationalUnit *g_root; // A way of getting the AST out
+  extern FILE *yyin;
 
   //! This is to fix problems when generating C++
   // We are declaring the functions provided by Flex, so
@@ -46,7 +48,7 @@
 %type <tu> Expr AssignExpr ConstantExpr CondExpr LogicalORExpr LogicalANDExpr ORExpr XORExpr ANDExpr EqualityExpr RelationalExpr ShiftExpr AdditiveExpr MultiplicativeExpr UnaryExpr PostfixExpr PrimaryExpr ParameterDeclaration ArgExprList
 %type <tu> DeclarationList Declaration DeclarationSpec TypeName TypeSpec SpecQualifierList StorageClassSpec
 %type <tu> ParameterTypeList ParameterList Identifierlist InitDeclaratorList InitDeclarator InitializerList Initializer DirectDeclarator Declarator
-%type <string> IDENTIFIER CONSTANT STRING_LITERAL 
+%type <string> IDENTIFIER CONSTANT STRING_LITERAL
 %type <number> AssignOp
 
 %type <_char> UnaryOp Pointer
@@ -383,8 +385,9 @@ UnaryOp: '&'	{ $$ = '&'; }
 
 const TranslationalUnit* g_root; // Definition of variable (to match declaration earlier)
 
-const TranslationalUnit *parseAST()
+const TranslationalUnit *parseAST(FILE* fp)
 {
+  yyin = fp;
   g_root=0;
   yyparse();
   return g_root;
