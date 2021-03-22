@@ -49,13 +49,13 @@ class PrimaryExpr
       }
     }
 
-    const std::string getName(){
+    /*const std::string getName(){
       if(type=="identif"){
         return *val;
       }else{
         std::assert(type=="identif");
       }
-    }
+    }*/
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
       if(type=="int"){

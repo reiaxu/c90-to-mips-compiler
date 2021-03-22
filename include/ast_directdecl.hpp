@@ -59,13 +59,13 @@ public:
         }
     }
 
-    std::string getName(){
+    /*std::string getName(){
          if(type==0){
              return (*identif);
          }else{
              dirdecl->getName();
          }
-     }
+     }*/
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
         //todo

@@ -49,13 +49,13 @@ public:
         }
     }
 
-    const std::string getName(){
+    /*const std::string getName(){
       if(identif==0){
         return postfixptr->getName();
       }else{
         return *identif;
       }
-    }
+    }*/
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
       //TODO.
