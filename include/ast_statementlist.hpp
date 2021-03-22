@@ -30,8 +30,9 @@ public:
   }
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      //todo
-    }
+    statlist->toMIPS(dst, destReg, context);
+    stat->toMIPS(dst, destReg, context);
+  }
 };
 
 #endif

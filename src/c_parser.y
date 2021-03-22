@@ -80,9 +80,9 @@ Statement: LabeledStatement {$$=$1;}
          | SelectionStatement {$$=$1;}
          ;
 
-SelectionStatement: IF '(' Expr ')' Statement {$$ = new SelStat(302, $3, $5);}
-                  | IF '(' Expr ')' Statement ELSE Statement {$$ = new SelStat(303, $3, $5, $7);}
-                  | SWITCH '(' Expr ')' Statement {$$ = new SelStat(304, $3, $5);}
+SelectionStatement: IF '(' Expr ')' Statement {$$ = new SelStat(1, $3, $5);}
+                  | IF '(' Expr ')' Statement ELSE Statement {$$ = new SelStat(2, $3, $5, $7);}
+                  | SWITCH '(' Expr ')' Statement {$$ = new SelStat(3, $3, $5);}
                   ;
 
 IterationStatement: WHILE '(' Expr ')' Statement {$$ = new IterStat(305, $3, $5);}

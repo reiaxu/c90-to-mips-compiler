@@ -10,7 +10,7 @@
 class SelStat
       :public TranslationalUnit{
   private:
-  int op;
+  int type;
   TransUnitPtr expr;
   TransUnitPtr stat1;
   TransUnitPtr stat2;
@@ -18,8 +18,8 @@ class SelStat
   protected:
 
 public:
-  SelStat(int op_, TransUnitPtr expr_, TransUnitPtr stat1_): op(op_), expr(expr_), stat1(stat1_){}
-  SelStat(int op_, TransUnitPtr expr_, TransUnitPtr stat1_, TransUnitPtr stat2_): op(op_), expr(expr_), stat1(stat1_), stat2(stat2_){}
+  SelStat(int op_, TransUnitPtr expr_, TransUnitPtr stat1_): type(op_), expr(expr_), stat1(stat1_){}
+  SelStat(int op_, TransUnitPtr expr_, TransUnitPtr stat1_, TransUnitPtr stat2_): type(op_), expr(expr_), stat1(stat1_), stat2(stat2_){}
 
   virtual ~SelStat(){
     delete expr;
@@ -28,13 +28,13 @@ public:
   }
 
   virtual void PrettyPrint(std::ostream &dst) const override{
-    if(op==302){
+    if(type==1){
       dst<<"if (";
       expr->PrettyPrint(dst);
       dst<<") ";
       stat1->PrettyPrint(dst);
     }
-    else if (op==303){
+    else if (type==2){
       dst<<"if (";
       expr->PrettyPrint(dst);
       dst<<") ";
@@ -43,7 +43,7 @@ public:
       dst<<" else ";
       stat2->PrettyPrint(dst);
     }
-    else if (op==304){
+    else if (type==3){
       dst<<"switch (";
       expr->PrettyPrint(dst);
       dst<<") ";

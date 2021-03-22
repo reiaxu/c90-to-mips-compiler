@@ -164,28 +164,34 @@ class ArLoExpr
         o_slt(dst, destReg, right, left);
         break;
 
-        // LEFT_OP
+        // LEFT_OP: <<
         case(265):
         lhs->toMIPS(dst, left, context);
         rhs->toMIPS(dst, right, context);
         o_sll(dst, destReg, left, right);
         break;
 
-        // RIGHT_OP
+        // RIGHT_OP: >>
         case(266):
         lhs->toMIPS(dst, left, context);
         rhs->toMIPS(dst, right, context);
-        o_srl(dst, destReg, left, right);
+        //if unsigned int tbi this will chnage to srl! be careful
+        o_sra(dst, destReg, left, right);
         break;
 
-        // LE_OP
-       case(267):
+        // LE_OP: <=
+        case(267):
+        //evaluate like a less than then equal
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        //o_slt(dst, destReg, left, right);
+        break;
 
-       break;
-
-        // GE_OP
+        // GE_OP: >=
         case(268):
-
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        //o_slt(dst, destReg, right, left);
         break;
 
         // EQ_OP

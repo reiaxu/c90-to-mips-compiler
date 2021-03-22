@@ -26,9 +26,12 @@ class TypeSpec
       dst<<type;
     }
 
+    std::string getType(){
+      return type;
+    }
+
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-        //notsure
-        dst<<"madri"<<std::endl;
+        //notsure, probably do nothing?
     }
 
 };
