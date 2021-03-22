@@ -54,7 +54,7 @@ public:
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
     if ((decl == NULL) && (statl == NULL)) {
-        ;//do nothing?
+        //do nothing?
     }
     else if ((decl == NULL) && (statl != NULL)) {
         statl->toMIPS(dst, destReg, context);

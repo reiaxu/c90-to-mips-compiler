@@ -14,14 +14,14 @@ class FunctionDef
 
   private:
     TransUnitPtr decspec;
-    std::string* declarator;
+    TransUnitPtr declarator;
     TransUnitPtr compoundstat;
 
   protected:
 
   public:
    FunctionDef(TransUnitPtr _decspec,
-      std::string* _declarator,
+      TransUnitPtr _declarator,
       TransUnitPtr _compoundstat)
 
       :decspec(_decspec)
@@ -37,12 +37,15 @@ class FunctionDef
 
     virtual void PrettyPrint(std::ostream &dst) const override{
       if (decspec==NULL) {
-        dst<<(*declarator)<<" ";
+        declarator->PrettyPrint(dst);
+        dst<<" ";
         compoundstat->PrettyPrint(dst);
       }
       else {
         decspec->PrettyPrint(dst);
-        dst<<" "<<(*declarator)<<" ";
+        dst<<" ";
+        declarator->PrettyPrint(dst);
+        dst<<" ";
         compoundstat->PrettyPrint(dst);
       }
     }
