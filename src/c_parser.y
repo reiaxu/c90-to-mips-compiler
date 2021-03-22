@@ -261,7 +261,7 @@ Pointer: '*' {;}
 
 //---------------------------------------------------------------
 InitializerList: Initializer {$$=$1;}
-               | InitializerList ',' Initializer {;}
+               | InitializerList ',' Initializer {$$=new InitList($1, $3);}
             	 ;
 
 Initializer: AssignExpr {$$=$1;}
