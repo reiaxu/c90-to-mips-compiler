@@ -218,7 +218,7 @@ DeclarationSpec: TypeSpec {$$=$1;}
                ;
 
 InitDeclaratorList: InitDeclarator {$$=$1;}
-                	| InitDeclaratorList ',' InitDeclarator {;}
+                	| InitDeclaratorList ',' InitDeclarator {$$ = new InitDeclList($1, $3);}
                  	;
 
 InitDeclarator: Declarator {$$= new InitDecl($1, NULL);}
