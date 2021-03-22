@@ -43,10 +43,10 @@
 
 %type <tu> ROOT TranslationalUnit ExternalDec FunctionDef
 %type <tu> StatementList Statement CompoundStatement JumpStatement LabeledStatement ExpressionStatement IterationStatement SelectionStatement
-%type <tu> Expr AssignExpr ConstantExpr CondExpr LogicalORExpr LogicalANDExpr ORExpr XORExpr ANDExpr EqualityExpr RelationalExpr ShiftExpr AdditiveExpr MultiplicativeExpr UnaryExpr PostfixExpr PrimaryExpr
+%type <tu> Expr AssignExpr ConstantExpr CondExpr LogicalORExpr LogicalANDExpr ORExpr XORExpr ANDExpr EqualityExpr RelationalExpr ShiftExpr AdditiveExpr MultiplicativeExpr UnaryExpr PostfixExpr PrimaryExpr ParameterDeclaration ArgExprList
 %type <tu> DeclarationList Declaration DeclarationSpec TypeName TypeSpec SpecQualifierList StorageClassSpec
-%type <tu> ParameterTypeList ParameterList Identifierlist InitDeclaratorList InitDeclarator InitializerList Initializer
-%type <string> IDENTIFIER CONSTANT STRING_LITERAL DirectDeclarator Declarator
+%type <tu> ParameterTypeList ParameterList Identifierlist InitDeclaratorList InitDeclarator InitializerList Initializer DirectDeclarator Declarator
+%type <string> IDENTIFIER CONSTANT STRING_LITERAL 
 %type <number> AssignOp
 
 %type <_char> UnaryOp Pointer
@@ -166,13 +166,13 @@ struct and enum stuff end*/
 ParameterTypeList: ParameterList {$$=$1;}
                  ;
 
-ParameterList: ParameterDeclaration {;}
-             | ParameterList ',' ParameterDeclaration {;}
+ParameterList: ParameterDeclaration {$$=$1;}
+             | ParameterList ',' ParameterDeclaration {$$=new ParamList($1, $3);}
              ;
 
-ParameterDeclaration: DeclarationSpec Declarator {;}
+ParameterDeclaration: DeclarationSpec Declarator {$$=new ParamDecl($1, $2);}
                      | DeclarationSpec AbstractDeclarator {;}
-                     | DeclarationSpec {;}
+                     | DeclarationSpec {$$=new ParamDecl($1,NULL);}
                      ;
 
 Identifierlist: IDENTIFIER {;}
@@ -204,11 +204,11 @@ AbstractDeclarator: Pointer {;}
                 	;
 
 DeclarationList: Declaration {$$=$1;}
-              	| DeclarationList Declaration {;}
+              	| DeclarationList Declaration {$$=new DeclList($1, $2);}
               	;
 
-Declaration: DeclarationSpec ';' {;}
-           | DeclarationSpec InitDeclaratorList ';' {;}
+Declaration: DeclarationSpec ';' {$$ = new Decl ($1, NULL);}
+           | DeclarationSpec InitDeclaratorList ';' {$$ = new Decl ($1, $2);}
            ;
 
 DeclarationSpec: TypeSpec {$$=$1;}
@@ -218,24 +218,23 @@ DeclarationSpec: TypeSpec {$$=$1;}
                ;
 
 InitDeclaratorList: InitDeclarator {$$=$1;}
-                	| InitDeclaratorList ',' InitDeclarator {;}
+                	| InitDeclaratorList ',' InitDeclarator {$$ = new InitDeclList($1, $3);}
                  	;
 
-InitDeclarator: Declarator {;}
-            	| Declarator '=' Initializer {;}
+InitDeclarator: Declarator {$$= new InitDecl($1, NULL);}
+            	| Declarator '=' Initializer {$$= new InitDecl($1, $3);}
             	;
 
 Declarator: DirectDeclarator {$$=$1;}
           | Pointer DirectDeclarator {;}
           ;
 
-DirectDeclarator: IDENTIFIER {$$ = $1;}
-  | DirectDeclarator '(' ')' {;}
-  | '(' Declarator ')' {;}
-  | DirectDeclarator '[' ConstantExpr ']' {;}
-  | DirectDeclarator '[' ']' {;}
-  | DirectDeclarator '(' ParameterTypeList ')' {;}
-  | DirectDeclarator '(' Identifierlist ')' {;}
+DirectDeclarator: IDENTIFIER {$$ = new DirectDecl(0,$1);}
+  | DirectDeclarator '(' ')' {$$ = new DirectDecl(1,$1);}
+  | '(' Declarator ')' {$$ = new DirectDecl(2,$2);}
+  | DirectDeclarator '[' ConstantExpr ']' {$$ = new DirectDecl(3,$1, $3);}
+  | DirectDeclarator '[' ']' {$$ = new DirectDecl(4,$1);}
+  | DirectDeclarator '(' ParameterTypeList ')' {$$ = new DirectDecl(5,$1, $3);}
   ;
 
 StorageClassSpec: TYPEDEF {;}
@@ -262,7 +261,7 @@ Pointer: '*' {;}
 
 //---------------------------------------------------------------
 InitializerList: Initializer {$$=$1;}
-               | InitializerList ',' Initializer {;}
+               | InitializerList ',' Initializer {$$=new InitList($1, $3);}
             	 ;
 
 Initializer: AssignExpr {$$=$1;}
@@ -273,8 +272,8 @@ Initializer: AssignExpr {$$=$1;}
 ConstantExpr: CondExpr {$$=$1;}
 	          ;
 
-ArgExprList: ArgExprList {;}
-           | ArgExprList ',' ArgExprList {;}
+ArgExprList: AssignExpr {$$=$1;}
+           | ArgExprList ',' AssignExpr {$$=new ArgExprList($1, $3);}
            ;
 
 Expr: AssignExpr {$$=$1;}
@@ -285,7 +284,7 @@ AssignExpr: CondExpr {$$=$1;}
         	;
 
 CondExpr: LogicalORExpr {$$=$1;}
-| LogicalORExpr '?' Expr ':' CondExpr {/*$$ = new CondExpr($1, $3, $5)*/;}
+        | LogicalORExpr '?' Expr ':' CondExpr {/*$$ = new CondExpr($1, $3, $5)*/;}
       	;
 
 LogicalORExpr: LogicalANDExpr {$$=$1;}

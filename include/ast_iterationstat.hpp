@@ -43,6 +43,7 @@ public:
       dst<<" while (";
       expr->PrettyPrint(dst);
       dst<<");";
+      dst<<std::endl;
     }
     else if (op==307){
       if (expr==NULL){
@@ -71,6 +72,10 @@ public:
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
     //TODO
   }
+
+  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+      //todo
+    }
 };
 
 #endif

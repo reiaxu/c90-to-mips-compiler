@@ -48,16 +48,18 @@ class FunctionDef
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      genL(dst, *declarator);
-      o_addiu(dst, "$sp", "$sp", "OFFSET?");
-      o_sw(dst,"$fp","OFFSET?","$sp");
-      o_move(dst, "$fp", "$sp");
-      compoundstat->toMIPS(dst, destReg, context);
-      o_move(dst, "$sp", "$fp");
-      o_lw(dst, "$fp", "OFFSET?", "$sp");
-      o_addiu(dst, "$sp", "$sp", "OFFSET?");
-      o_jr(dst,"$31");
-      o_nop(dst);
+      //genL(dst, *declarator);
+      //prior to func execution, store return addr, store args to func,
+      //o_addiu(dst, "$sp", "$sp", "OFFSET?");
+      //o_sw(dst,"$fp","OFFSET?","$sp");
+      //o_move(dst, "$fp", "$sp");
+      //compoundstat->toMIPS(dst, destReg, context);
+      //o_move(dst, "$sp", "$fp");
+      //o_lw(dst, "$fp", "OFFSET?", "$sp");
+      //o_addiu(dst, "$sp", "$sp", "OFFSET?");
+      //make sure to get $ra off stack!
+      //o_jr(dst,"$31");
+      //o_nop(dst);
 
     }
 
