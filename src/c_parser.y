@@ -167,12 +167,12 @@ ParameterTypeList: ParameterList {$$=$1;}
                  ;
 
 ParameterList: ParameterDeclaration {$$=$1;}
-             | ParameterList ',' ParameterDeclaration {;}
+             | ParameterList ',' ParameterDeclaration {$$=new ParamList($1, $3);}
              ;
 
-ParameterDeclaration: DeclarationSpec Declarator {;}
+ParameterDeclaration: DeclarationSpec Declarator {$$=new ParamDecl($1, $2);}
                      | DeclarationSpec AbstractDeclarator {;}
-                     | DeclarationSpec {$$=$1;}
+                     | DeclarationSpec {$$=new ParamDecl($1,NULL);}
                      ;
 
 Identifierlist: IDENTIFIER {;}
@@ -204,11 +204,11 @@ AbstractDeclarator: Pointer {;}
                 	;
 
 DeclarationList: Declaration {$$=$1;}
-              	| DeclarationList Declaration {;}
+              	| DeclarationList Declaration {$$=new DeclList($1, $2);}
               	;
 
-Declaration: DeclarationSpec ';' {;}
-           | DeclarationSpec InitDeclaratorList ';' {;}
+Declaration: DeclarationSpec ';' {$$ = new Decl ($1, NULL);}
+           | DeclarationSpec InitDeclaratorList ';' {$$ = new Decl ($1, $2);}
            ;
 
 DeclarationSpec: TypeSpec {$$=$1;}

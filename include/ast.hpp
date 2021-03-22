@@ -23,6 +23,8 @@
 #include "ast_statementlist.hpp"
 #include "ast_initdeclarator.hpp"
 #include "ast_initdeclaratorlist.hpp"
+#include "ast_declaration.hpp"
+#include "ast_declarationlist.hpp"
 
 extern const TranslationalUnit* parseAST();
 
