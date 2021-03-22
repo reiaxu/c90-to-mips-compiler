@@ -1,6 +1,33 @@
 #include<iostream>
+#include "../include/ast.hpp"
+#include "ast_transalationalunit.hpp"
 
+extern FILE* input_file;
+std::ofstream output_file;
 
+int main(int argc, char* argv[])
+{
+		if(argc!=5){
+			std::cerr<<"Incorrect number of arguments specified for program"<<std::endl;
+		}else{
+			//setting I/O files
+			input_file=fopen(argv[2],"r");
+			output_file.open(argv[4]);
+			//Lex and parse to build AST
+			const TranslationalUnit *ast=parseAST();
+			//start codeGen
+	    Bindings context = Bindings("main", 10);
+	    ast->toMIPS(output_file, " ", context);
+
+			fclose(input_file);
+			output_file.close();
+			delete ast;
+			
+	    return 0;
+		}
+}
+
+/*
 int main()
 {
 	std::cout << "f:" << std::endl;
@@ -62,3 +89,4 @@ int main()
 	std::cout << "nop" << std::endl;
 	std::cout << ".global f" << std::endl;
 }
+*/

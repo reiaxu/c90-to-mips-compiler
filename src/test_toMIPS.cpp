@@ -9,5 +9,7 @@ int main()
     ast->toMIPS(std::cout, " ", context);
     std::cout<<std::endl;
 
+    delete ast;
+    
     return 0;
 }
