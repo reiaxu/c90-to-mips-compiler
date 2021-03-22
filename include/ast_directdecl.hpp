@@ -15,18 +15,16 @@ class DirectDecl
     const int type;
     std::string* identif;
     TransUnitPtr decl; 
-    TransUnitPtr dirdecl;
     TransUnitPtr list;
 
 public:
     DirectDecl(const int type_, std::string* identif_):type(type_),identif(identif_){}
     DirectDecl(const int type_, TransUnitPtr decl_):type(type_),decl(decl_){}
-    DirectDecl(const int type_, TransUnitPtr dirdecl_, TransUnitPtr list_):type(type_),dirdecl(dirdecl_), list(list_){}
+    DirectDecl(const int type_, TransUnitPtr decl_, TransUnitPtr list_):type(type_),decl(decl_), list(list_){}
 
     virtual ~DirectDecl() {
         delete identif;
         delete decl;
-        delete dirdecl;
         delete list;
     }
 
@@ -44,7 +42,7 @@ public:
             dst<<")";
         }
         else if (type==3) {
-            dirdecl->PrettyPrint(dst);
+            decl->PrettyPrint(dst);
             dst<<" [";
             list->PrettyPrint(dst);
             dst<<"]";
@@ -54,7 +52,7 @@ public:
             dst<<" []";
         }
         else if (type==5){
-            dirdecl->PrettyPrint(dst);
+            decl->PrettyPrint(dst);
             dst<<" (";
             list->PrettyPrint(dst);
             dst<<")";
