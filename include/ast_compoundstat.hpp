@@ -27,21 +27,21 @@ public:
     if ((decl == NULL) && (statl == NULL)) {
         dst<<"{} ";
     }
-    else if (decl == NULL) {
+    else if ((decl == NULL) && (statl != NULL)) {
         dst<<"{";
         dst<<std::endl;
         statl->PrettyPrint(dst);
         dst<<std::endl;
         dst<<"} ";
     }
-    else if (statl == NULL) {
+    else if ((decl != NULL) && (statl == NULL)) {
         dst<<"{";
         dst<<std::endl;
         decl->PrettyPrint(dst);
         dst<<std::endl;
         dst<<"} ";
     }
-    else { 
+    else {
         dst<<"{";
         dst<<std::endl;
         decl->PrettyPrint(dst);
@@ -49,6 +49,22 @@ public:
         statl->PrettyPrint(dst);
         dst<<std::endl;
         dst<<"} ";
+    }
+  }
+
+  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+    if ((decl == NULL) && (statl == NULL)) {
+        ;//do nothing?
+    }
+    else if ((decl == NULL) && (statl != NULL)) {
+        statl->toMIPS(dst, destReg, context);
+    }
+    else if ((decl != NULL) && (statl == NULL)) {
+        //do stuff related to scope
+        decl->toMIPS(dst, destReg, context);
+    }
+    else {
+      ;//do something
     }
   }
 };

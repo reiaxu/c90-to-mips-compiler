@@ -50,7 +50,8 @@ public:
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      int a = 3;
+      //TODO.
+      //int a = 3;
     };
 
 

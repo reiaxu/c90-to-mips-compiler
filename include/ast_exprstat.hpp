@@ -31,13 +31,14 @@ public:
       expr->PrettyPrint(dst);
       dst<<"; ";
     }
-    
+
   }
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-    //do something
-    int a = 3;
-  };
+    if (expr!=NULL){
+      expr->toMIPS(dst, destReg, context);
+    }
+  }
 };
 
 #endif
