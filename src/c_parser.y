@@ -273,7 +273,7 @@ ConstantExpr: CondExpr {$$=$1;}
 	          ;
 
 ArgExprList: AssignExpr {$$=$1;}
-           | ArgExprList ',' AssignExpr {;}
+           | ArgExprList ',' AssignExpr {$$=new ArgExprList($1, $3);}
            ;
 
 Expr: AssignExpr {$$=$1;}
