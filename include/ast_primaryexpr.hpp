@@ -6,6 +6,7 @@
 #include<string>
 #include<map>
 #include<iostream>
+#include<cassert>
 
 #include "context.hpp"
 #include "MIPSish.hpp"
@@ -48,9 +49,13 @@ class PrimaryExpr
       }
     }
 
-    /*const std::string getType(){
-      return type;
-    }*/
+    const std::string getName(){
+      if(type=="identif"){
+        return *val;
+      }else{
+        std::assert(type=="identif");
+      }
+    }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
       if(type=="int"){

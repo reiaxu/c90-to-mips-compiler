@@ -15,7 +15,7 @@ class PostfixExpr
 
     private:
     TransUnitPtr postfixptr;
-    std::string* identif;
+    std::string* identif=0;
     int op;
 
 public:
@@ -47,6 +47,14 @@ public:
             postfixptr->PrettyPrint(dst);
             dst<<" () ";
         }
+    }
+
+    const std::string getName(){
+      if(identif==0){
+        return postfixptr->getName();
+      }else{
+        return *identif;
+      }
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
