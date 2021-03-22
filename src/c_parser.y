@@ -280,7 +280,7 @@ Expr: AssignExpr {$$=$1;}
     ;
 
 AssignExpr: CondExpr {$$=$1;}
-        	| UnaryExpr AssignOp AssignExpr {/*$$ = new AssignExpr($1, $2, $3)*/;}
+        	| UnaryExpr AssignOp AssignExpr {$$ = new AssignExpr($1, $2, $3);}
         	;
 
 CondExpr: LogicalORExpr {$$=$1;}
