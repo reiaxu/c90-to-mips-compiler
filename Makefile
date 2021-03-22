@@ -1,4 +1,4 @@
-CPPFLAGS += -std=c++11 -W -Wall -g -Wno-unused-parameter
+CPPFLAGS += -std=c++11 -Wall -g -Wno-unused-parameter
 CPPFLAGS += -I include
 
 bin/c_compiler : bin/compiler src/wrapper.sh
@@ -25,5 +25,7 @@ src/c_lexer.yy.cpp: src/c_lexer.flex src/c_parser.tab.hpp
 
 
 clean :
-	rm src/*.tab.cpp
-	rm src/*.yy.cpp
+	rm -f src/*.tab.cpp
+	rm -f src/c_parser.tab.hpp.gch
+	rm -f src/*.yy.cpp
+	rm -f src/*.output

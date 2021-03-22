@@ -281,11 +281,11 @@ Expr: AssignExpr {$$=$1;}
     ;
 
 AssignExpr: CondExpr {$$=$1;}
-        	| UnaryExpr AssignOp AssignExpr {$$ = new AssignExpr($1, $2, $3);}
+        	| UnaryExpr AssignOp AssignExpr {/*$$ = new AssignExpr($1, $2, $3)*/;}
         	;
 
 CondExpr: LogicalORExpr {$$=$1;}
-      	| LogicalORExpr '?' Expr ':' CondExpr {$$ = new CondExpr($1, $3, $5);}
+| LogicalORExpr '?' Expr ':' CondExpr {/*$$ = new CondExpr($1, $3, $5)*/;}
       	;
 
 LogicalORExpr: LogicalANDExpr {$$=$1;}
@@ -366,7 +366,7 @@ AssignOp: '=' {$$=int('=');}
       	| MOD_ASSIGN {$$=MOD_ASSIGN;}
        	| ADD_ASSIGN {$$=ADD_ASSIGN;}
         | SUB_ASSIGN {$$=SUB_ASSIGN;}
-    	| LEFT_ASSIGN {$$=LEFT_ASSIGN;}
+      	| LEFT_ASSIGN {$$=LEFT_ASSIGN;}
         | RIGHT_ASSIGN {$$=RIGHT_ASSIGN;}
         | AND_ASSIGN {$$=AND_ASSIGN;}
         | XOR_ASSIGN {$$=XOR_ASSIGN;}
