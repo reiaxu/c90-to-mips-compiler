@@ -34,12 +34,15 @@ class FunctionDef
     }
 
     virtual void PrettyPrint(std::ostream &dst) const override{
-      type->PrettyPrint(dst);
-      dst<<" "<<(*identif)<<"(){";
-      dst<<std::endl;
-      jumpstat->PrettyPrint(dst);
-      dst<<std::endl;
-      dst<<"}";
+      if (type==NULL) {
+        dst<<(*identif)<<" ";
+        jumpstat->PrettyPrint(dst);
+      }
+      else {
+        type->PrettyPrint(dst);
+        dst<<" "<<(*identif)<<" ";
+        jumpstat->PrettyPrint(dst);
+      }
     }
 
 

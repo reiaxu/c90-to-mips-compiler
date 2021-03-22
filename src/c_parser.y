@@ -65,11 +65,11 @@ ExternalDec: FunctionDef {$$=$1;}
            ;
 
 FunctionDef: DeclarationSpec Declarator CompoundStatement {$$ = new FunctionDef($1, $2, $3);}
-           | Declarator CompoundStatement {;}
+           | Declarator CompoundStatement {$$ = new FunctionDef(NULL, $1, $2);}
            ;
 
 StatementList: Statement {$$=$1;}
-             | StatementList Statement {;}
+             | StatementList Statement {$$ = new StatList($1, $2);}
              ;
 
 Statement: LabeledStatement {$$=$1;}
@@ -80,25 +80,25 @@ Statement: LabeledStatement {$$=$1;}
          | SelectionStatement {$$=$1;}
          ;
 
-SelectionStatement: IF '(' Expr ')' Statement {;}
-                  | IF '(' Expr ')' Statement ELSE Statement {;}
-                  | SWITCH '(' Expr ')' Statement {;}
+SelectionStatement: IF '(' Expr ')' Statement {$$ = new SelStat(302, $3, $5);}
+                  | IF '(' Expr ')' Statement ELSE Statement {$$ = new SelStat(303, $3, $5, $7);}
+                  | SWITCH '(' Expr ')' Statement {$$ = new SelStat(304, $3, $5);}
                   ;
 
-IterationStatement: WHILE '(' Expr ')' Statement {;}
-                  | DO Statement WHILE '(' Expr ')' ';' {;}
-                  | FOR '(' ExpressionStatement ExpressionStatement ')' Statement {;}
-                  | FOR '(' ExpressionStatement ExpressionStatement Expr')' Statement {;}
+IterationStatement: WHILE '(' Expr ')' Statement {$$ = new IterStat(305, $3, $5);}
+                  | DO Statement WHILE '(' Expr ')' ';' {$$ = new IterStat(306, $5, $2);}
+                  | FOR '(' ExpressionStatement ExpressionStatement ')' Statement {$$ = new IterStat(307, $3, $4, NULL, $6);}
+                  | FOR '(' ExpressionStatement ExpressionStatement Expr')' Statement {$$ = new IterStat(307, $3, $4, $5, $7);}
                   ;
 
-ExpressionStatement: ';' {;}
+ExpressionStatement: ';' {$$ = new ExprStat(NULL);}
                    | Expr ';' {$$ = new ExprStat($1);}
                    ;
 
-CompoundStatement: '{' '}' {}
-                 | '{' StatementList '}' {$$=$2;}
-                 | '{' DeclarationList '}' {$$=$2;}
-                 | '{' DeclarationList StatementList '}' {;}
+CompoundStatement: '{' '}' {$$=new CompoundStat(NULL, NULL);}
+                 | '{' StatementList '}' {$$=new CompoundStat(NULL, $2);}
+                 | '{' DeclarationList '}' {$$=new CompoundStat($2, NULL);}
+                 | '{' DeclarationList StatementList '}' {$$=new CompoundStat($2, $3);}
                  ;
 
 JumpStatement: RETURN Expr ';' {$$ = new JumpStat("return",$2);}
@@ -230,7 +230,7 @@ Declarator: DirectDeclarator {$$=$1;}
           ;
 
 DirectDeclarator: IDENTIFIER {$$ = $1;}
-  | DirectDeclarator '(' ')' {$$=$1;}
+  | DirectDeclarator '(' ')' {;}
   | '(' Declarator ')' {;}
   | DirectDeclarator '[' ConstantExpr ']' {;}
   | DirectDeclarator '[' ']' {;}
@@ -346,7 +346,7 @@ UnaryExpr: PostfixExpr {$$=$1;}
 
 PostfixExpr: PrimaryExpr {$$=$1;}
             | PostfixExpr '[' Expr ']' {;}
-          	| PostfixExpr '(' ')' {;}
+          	| PostfixExpr '(' ')' {$$ = new PostfixExpr($1, 0);}
             | PostfixExpr '(' ArgExprList ')' {;}
           	| PostfixExpr '.' IDENTIFIER {$$ = new PostfixExpr($1, $3, int('.'));}
           	| PostfixExpr PTR_OP IDENTIFIER {$$ = new PostfixExpr($1, $3, 262);}
@@ -357,7 +357,7 @@ PostfixExpr: PrimaryExpr {$$=$1;}
 PrimaryExpr: CONSTANT {$$=new PrimaryExpr("int", $1);}
            | IDENTIFIER {$$ = new PrimaryExpr("identif",$1);}
            | STRING_LITERAL {$$ = new PrimaryExpr("string",$1);}
-           | '(' Expr ')' {;}
+           | '(' Expr ')' {$$ = new PrimaryExpr("expr",$2);}
            ;
 
 AssignOp: '=' {$$=int('=');}

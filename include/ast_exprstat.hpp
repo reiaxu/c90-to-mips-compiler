@@ -23,8 +23,14 @@ public:
   }
 
   virtual void PrettyPrint(std::ostream &dst) const override{
-    expr->PrettyPrint(dst);
-    dst<<';';
+    if (expr==NULL){
+      dst<<"; ";
+    }
+    else {
+      expr->PrettyPrint(dst);
+      dst<<"; ";
+    }
+    
   }
 };
 

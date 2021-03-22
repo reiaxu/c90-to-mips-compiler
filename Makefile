@@ -23,3 +23,6 @@ src/c_lexer.yy.cpp: src/c_lexer.flex src/c_parser.tab.hpp
 clean :
 	rm src/*.tab.cpp
 	rm src/*.yy.cpp
+	rm working/*.c
+	rm working/*.txt
+	rm working/*/*.c
