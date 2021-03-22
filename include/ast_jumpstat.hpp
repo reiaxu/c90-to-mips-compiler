@@ -30,12 +30,12 @@ public:
   }
 
   virtual void PrettyPrint(std::ostream &dst) const override{
-    if(expr==0){
-      dst<<jump<<';';
+    if(primaryexpr==0){
+      dst<<jump<<"; ";
     }else{
-      dst<<jump<<' ';
-      expr->PrettyPrint(dst);
-      dst<<';';
+      dst<<jump<<" ";
+      primaryexpr->PrettyPrint(dst);
+      dst<<"; ";
     }
   }
 

@@ -24,8 +24,14 @@ public:
   }
 
   virtual void PrettyPrint(std::ostream &dst) const override{
-    expr->PrettyPrint(dst);
-    dst<<';';
+    if (expr==NULL){
+      dst<<"; ";
+    }
+    else {
+      expr->PrettyPrint(dst);
+      dst<<"; ";
+    }
+    
   }
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{

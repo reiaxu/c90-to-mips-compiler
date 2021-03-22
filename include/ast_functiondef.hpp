@@ -36,12 +36,15 @@ class FunctionDef
     }
 
     virtual void PrettyPrint(std::ostream &dst) const override{
-      decspec->PrettyPrint(dst);
-      dst<<" "<<(*declarator)<<"(){";
-      dst<<std::endl;
-      compoundstat->PrettyPrint(dst);
-      dst<<std::endl;
-      dst<<"}";
+      if (type==NULL) {
+        dst<<(*identif)<<" ";
+        jumpstat->PrettyPrint(dst);
+      }
+      else {
+        type->PrettyPrint(dst);
+        dst<<" "<<(*identif)<<" ";
+        jumpstat->PrettyPrint(dst);
+      }
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{

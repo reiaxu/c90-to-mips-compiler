@@ -26,6 +26,9 @@ src/c_lexer.yy.cpp: src/c_lexer.flex src/c_parser.tab.hpp
 
 clean :
 	rm -f src/*.tab.cpp
-	rm -f src/c_parser.tab.hpp.gch
 	rm -f src/*.yy.cpp
+	rm -f working/*.c
+	rm -f working/*.txt
+	rm -f working/*/*.c
+	rm -f src/c_parser.tab.hpp.gch
 	rm -f src/*.output

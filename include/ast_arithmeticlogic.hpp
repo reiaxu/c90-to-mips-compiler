@@ -30,56 +30,44 @@ class ArLoExpr
       switch(optype){
         // LEFT_OP
         case(265):
-          dst<<"(";
           lhs->PrettyPrint(dst);
           dst<<" << ";
           rhs->PrettyPrint(dst);
-          dst<<")";
           break;
 
         // RIGHT_OP
         case(266):
-          dst<<"(";
           lhs->PrettyPrint(dst);
           dst<<" >> ";
           rhs->PrettyPrint(dst);
-          dst<<")";
           break;
 
         // LE_OP
         case(267):
-          dst<<"(";
           lhs->PrettyPrint(dst);
           dst<<" <= ";
           rhs->PrettyPrint(dst);
-          dst<<")";
           break;
 
         // GE_OP
         case(268):
-          dst<<"(";
           lhs->PrettyPrint(dst);
           dst<<" >= ";
           rhs->PrettyPrint(dst);
-          dst<<")";
           break;
 
         // EQ_OP
         case(269):
-          dst<<"(";
           lhs->PrettyPrint(dst);
           dst<<" == ";
           rhs->PrettyPrint(dst);
-          dst<<")";
           break;
 
         // NE_OP
         case(270):
-          dst<<"(";
           lhs->PrettyPrint(dst);
           dst<<" != ";
           rhs->PrettyPrint(dst);
-          dst<<")";
           break;
 
         // AND_OP
