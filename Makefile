@@ -1,11 +1,11 @@
-CPPFLAGS += -std=c++11 -Wall -g -Wno-unused-parameter
+CPPFLAGS += -std=c++17 -W -Wall -g -Wno-unused-parameter
 CPPFLAGS += -I include
 
 bin/c_compiler : bin/compiler src/wrapper.sh
 	cp src/wrapper.sh bin/c_compiler
 	chmod u+x bin/c_compiler
 
-bin/compiler : src/compiler.cpp
+bin/compiler : src/compiler.cpp src/c_lexer.yy.cpp src/c_parser.tab.cpp src/c_parser.tab.hpp include/*
 	mkdir -p bin
 	g++ $(CPPFLAGS) -o bin/compiler $^
 

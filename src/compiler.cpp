@@ -1,8 +1,10 @@
 #include<iostream>
-#include "../include/ast.hpp"
+#include <fstream>
+
+#include "ast.hpp"
 #include "ast_transalationalunit.hpp"
 
-extern FILE* input_file;
+FILE* input_file;
 std::ofstream output_file;
 
 int main(int argc, char* argv[])
@@ -14,7 +16,7 @@ int main(int argc, char* argv[])
 			input_file=fopen(argv[2],"r");
 			output_file.open(argv[4]);
 			//Lex and parse to build AST
-			const TranslationalUnit *ast=parseAST();
+			const TranslationalUnit *ast=parseAST(input_file);
 			//start codeGen
 	    Bindings context = Bindings("main", 10);
 	    ast->toMIPS(output_file, " ", context);
@@ -22,8 +24,8 @@ int main(int argc, char* argv[])
 			fclose(input_file);
 			output_file.close();
 			delete ast;
-			
-	    return 0;
+
+	     return 0;
 		}
 }
 
