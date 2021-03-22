@@ -45,8 +45,8 @@
 %type <tu> StatementList Statement CompoundStatement JumpStatement LabeledStatement ExpressionStatement IterationStatement SelectionStatement
 %type <tu> Expr AssignExpr ConstantExpr CondExpr LogicalORExpr LogicalANDExpr ORExpr XORExpr ANDExpr EqualityExpr RelationalExpr ShiftExpr AdditiveExpr MultiplicativeExpr UnaryExpr PostfixExpr PrimaryExpr
 %type <tu> DeclarationList Declaration DeclarationSpec TypeName TypeSpec SpecQualifierList StorageClassSpec
-%type <tu> ParameterTypeList ParameterList Identifierlist InitDeclaratorList InitDeclarator InitializerList Initializer
-%type <string> IDENTIFIER CONSTANT STRING_LITERAL DirectDeclarator Declarator
+%type <tu> ParameterTypeList ParameterList Identifierlist InitDeclaratorList InitDeclarator InitializerList Initializer DirectDeclarator Declarator
+%type <string> IDENTIFIER CONSTANT STRING_LITERAL
 %type <number> AssignOp
 
 %type <_char> UnaryOp Pointer
