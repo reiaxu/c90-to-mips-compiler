@@ -18,6 +18,7 @@
 }
 %union{
   const TranslationalUnit* tu;
+  DirectDecl* dd;
   int number;
   std::string *string;
   char _char;
@@ -231,12 +232,12 @@ Declarator: DirectDeclarator {$$=$1;}
           | Pointer DirectDeclarator {;}
           ;
 
-DirectDeclarator: IDENTIFIER {$$ = new DirectDecl(0,$1);}
-  | DirectDeclarator '(' ')' {$$ = new DirectDecl(1,$1);}
-  | '(' Declarator ')' {$$ = new DirectDecl(2,$2);}
-  | DirectDeclarator '[' ConstantExpr ']' {$$ = new DirectDecl(3,$1, $3);}
-  | DirectDeclarator '[' ']' {$$ = new DirectDecl(4,$1);}
-  | DirectDeclarator '(' ParameterTypeList ')' {$$ = new DirectDecl(5,$1, $3);}
+DirectDeclarator: IDENTIFIER {$$ = new DirectDecl(0,$1);} //var
+  | DirectDeclarator '(' ')' {$$ = new DirectDecl(1,$1);} //func
+  | '(' Declarator ')' {$$ = new DirectDecl(2,$2);} //var?
+  | DirectDeclarator '[' ConstantExpr ']' {$$ = new DirectDecl(3,$1, $3);} //array
+  | DirectDeclarator '[' ']' {$$ = new DirectDecl(4,$1);} //array
+  | DirectDeclarator '(' ParameterTypeList ')' {$$ = new DirectDecl(5,$1, $3);} //func
   ;
 
 StorageClassSpec: TYPEDEF {;}

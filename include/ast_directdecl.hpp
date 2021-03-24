@@ -12,7 +12,7 @@ class DirectDecl
     : public TranslationalUnit{
 
     private:
-    const int type;
+    int type;
     std::string* identif;
     TransUnitPtr decl;
     TransUnitPtr list;
@@ -59,17 +59,17 @@ public:
         }
     }
 
-    /*std::string getName(){
+    std::string getName(){
          if(type==0){
              return (*identif);
          }else{
-             DirectDecl* _casted = (DirectDecl*)decl;
-             _casted->getName();
+            DirectDecl *_casted = (DirectDecl*) decl;
+            return _casted->getName();
          }
-     }*/
+     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      if(destReg=="LABEL"){
+      /*if(destReg=="LABEL"){
         if(type==0){
             genL(dst, *identif);
         }else{
@@ -78,7 +78,7 @@ public:
       }else{
 
 
-      }
+      }*/
   }
 
 };

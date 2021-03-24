@@ -10,7 +10,7 @@
 
 class Decl
     : public TranslationalUnit{
-    
+
     private:
     TransUnitPtr dspec;
     TransUnitPtr dlist;
@@ -44,7 +44,5 @@ public:
     }
 
 };
-
-
 
 #endif

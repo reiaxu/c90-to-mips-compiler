@@ -52,11 +52,13 @@ class FunctionDef
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      //genL(dst, *declarator);
       //prior to func execution, store return addr, store args to func
       //DirectDecl* decl = (DirectDecl*) declarator;
-      declarator->toMIPS(dst, "LABEL", context);
-      o_addiu(dst, "$sp", "$sp", "-8") ;
+      //declarator->toMIPS(dst, "LABEL", context);
+      //const DirectDecl *_casted = dynamic_cast<DirectDecl*>(declarator);
+      DirectDecl *_casted = (DirectDecl*) declarator;
+      genL(dst,_casted->getName());
+      o_addiu(dst, "$sp", "$sp", "-8");
       o_sw(dst,"$fp","0","$sp");
       o_sw(dst,"$ra","4","$sp");
       //o_sw(dst,"$fp","OFFSET?","$sp");
