@@ -63,12 +63,22 @@ public:
          if(type==0){
              return (*identif);
          }else{
-             dirdecl->getName();
+             DirectDecl* _casted = (DirectDecl*)decl;
+             _casted->getName();
          }
      }*/
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-        //todo
+      if(destReg=="LABEL"){
+        if(type==0){
+            genL(dst, *identif);
+        }else{
+            decl->toMIPS(dst, "LABEL", context);
+          }
+      }else{
+
+
+      }
   }
 
 };
