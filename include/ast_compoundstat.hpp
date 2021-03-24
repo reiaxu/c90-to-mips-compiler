@@ -64,7 +64,8 @@ public:
         decl->toMIPS(dst, destReg, context);
     }
     else {
-      ;//do something
+        decl->toMIPS(dst, destReg, context);
+        statl->toMIPS(dst, destReg, context) ;
     }
   }
 };

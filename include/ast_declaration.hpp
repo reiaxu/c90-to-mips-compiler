@@ -40,7 +40,14 @@ public:
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      //todo
+      if(dlist == NULL){
+        //do nothing?
+      }else{
+        //decleration so its like we are creating the varaible for the first time
+        //we must first insert the varaible into the binding
+        dlist->toMIPS(dst, destReg, context);
+
+      }
     }
 
 };

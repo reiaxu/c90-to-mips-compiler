@@ -2,6 +2,8 @@
 #define ast_initdeclarator_hpp
 
 #include"ast_transalationalunit.hpp"
+#include"ast_directdecl.hpp"
+#include"context.hpp"
 
 #include<string>
 #include<map>
@@ -10,14 +12,14 @@
 
 class InitDecl
     : public TranslationalUnit{
-    
+
     private:
-    TransUnitPtr decl; 
+    TransUnitPtr decl;
     TransUnitPtr init;
 
 public:
     InitDecl(TransUnitPtr decl_, TransUnitPtr init_):decl(decl_),init(init_){}
-    
+
     virtual ~InitDecl() {
         delete decl;
         delete init;
@@ -36,8 +38,20 @@ public:
 
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-        //todo
-  }
+      if(init!=NULL){
+        std::string temp = "$t0";
+        //evaluate init, store in destReg
+        init->toMIPS(dst, temp, context);
+        //get name of var and its offset
+        DirectDecl *_casted = (DirectDecl*) decl;
+        std::string var_name = _casted->getName();
+        context.insertBinding(var_name);
+        std::string _offset = std::to_string(context.getOffset(var_name));
+        //load temp into memaddr of decl
+        o_sw(dst, temp, _offset, "$fp");
+
+      }
+    }
 
 };
 

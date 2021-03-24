@@ -20,12 +20,12 @@ inline void o_move(std::ostream &dst, std::string dReg,std::string sReg){
     dst<<"move "+dReg+','+sReg<<std::endl;
 }
 
-inline void o_lw(std::ostream &dst,std::string dReg,std::string offset,std::string sReg){
-    dst<<"lw "+dReg+','+offset+'('+sReg+')'<<std::endl;
+inline void o_lw(std::ostream &dst,std::string dReg,std::string offset,std::string base){
+    dst<<"lw "+dReg+','+offset+'('+base+')'<<std::endl;
 }
 
-inline void o_sw(std::ostream &dst, std::string dReg,std::string offset,std::string sReg){
-    dst<<"sw "+dReg+','+offset+'('+sReg+')'<<std::endl;
+inline void o_sw(std::ostream &dst, std::string sReg,std::string offset,std::string base){
+    dst<<"sw "+sReg+','+offset+'('+base+')'<<std::endl;
 }
 
 inline void o_add(std::ostream &dst, std::string dReg,std::string sReg,std::string s2Reg){
