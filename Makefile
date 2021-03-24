@@ -1,4 +1,4 @@
-CPPFLAGS += -std=c++17 -W -Wall -g -c -Wno-unused-parameter
+CPPFLAGS += -std=c++17 -W -Wall -g -Wno-unused-parameter
 CPPFLAGS += -I include
 
 bin/c_compiler : bin/compiler src/wrapper.sh

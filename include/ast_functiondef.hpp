@@ -57,6 +57,7 @@ class FunctionDef
       //declarator->toMIPS(dst, "LABEL", context);
       //const DirectDecl *_casted = dynamic_cast<DirectDecl*>(declarator);
       DirectDecl *_casted = (DirectDecl*) declarator;
+      dst<<".text"<<std::endl;
       dst<<".globl "<<_casted->getName()<<std::endl;
       genL(dst,_casted->getName());
       o_addiu(dst, "$sp", "$sp", "-8");
