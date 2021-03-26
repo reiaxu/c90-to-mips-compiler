@@ -45,8 +45,8 @@ public:
         o_nop(dst);
       }
     }else{
-      std::string destReg = "$2";
-      expr->toMIPS(dst,destReg, context);
+      //std::string destReg = "$2";
+      expr->toMIPS(dst,"$2", context);
     }
   }
 

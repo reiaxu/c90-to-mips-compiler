@@ -49,7 +49,7 @@ class PrimaryExpr
       }
     }
 
-    /*const std::string getName(){
+    /* std::string getName(){
       if(type=="identif"){
         return *val;
       }else{
@@ -62,9 +62,9 @@ class PrimaryExpr
         o_li(dst, destReg, *(val));
       }else if(type=="expr"){
         expr->toMIPS(dst, destReg, context);
-      }else if(type=="indentif"){
-        std::string offset = std::to_string(context.getOffset(*val));
-        o_lw(dst, destReg, offset,"$fp");
+      }else if(type=="identif"){
+        std::string _offset = std::to_string(context.getOffset(*val));
+        o_lw(dst, destReg, _offset,"$fp");
         o_nop(dst);
       }
     }
