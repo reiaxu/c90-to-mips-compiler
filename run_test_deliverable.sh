@@ -31,7 +31,7 @@ for CATEGORY in compiler_tests/* ; do
         printf "Test case %-15s :\t" $NAME  
 
         # Compile driver with normal GCC
-        mips-linux-gnu-gcc -c $DRIVER -o working/${SECTION}/${NAME}_driver.o 2> working/${SECTION}/${NAME}_driver.compile.stderr
+        mips-linux-gnu-gcc -c $DRIVER > working/${SECTION}/${NAME}_driver.o 2> working/${SECTION}/${NAME}_driver.compile.stderr
         if [[ $? -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Couldn't compile driver program using GCC.\n"
             continue
@@ -45,7 +45,7 @@ for CATEGORY in compiler_tests/* ; do
         fi    
 
         # Link driver object and assembly into executable
-        mips-linux-gnu-gcc -static working/${SECTION}/${NAME}.s working/${SECTION}/${NAME}_driver.o -o working/${SECTION}/${NAME}.elf 2> working/${SECTION}/${NAME}.link.stderr
+        mips-linux-gnu-gcc -static working/${SECTION}/${NAME}.s working/${SECTION}/${NAME}_driver.o > working/${SECTION}/${NAME}.elf 2> working/${SECTION}/${NAME}.link.stderr
         if [[ $? -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Linker returned error message.\n"
             continue

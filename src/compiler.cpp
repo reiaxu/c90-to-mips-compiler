@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 			const TranslationalUnit *ast=parseAST(input_file);
 			//start codeGen
 	    Bindings context = Bindings("main", 10);
-	    ast->toMIPS(output_file, " ", context);
+	    ast->toMIPS(std::cout, " ", context);
 
 			fclose(input_file);
 			output_file.close();
