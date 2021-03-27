@@ -52,7 +52,7 @@ public:
   }
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      std::string tempR = "$t0"
+      std::string tempR = "$t0";
       if(type==1){
         expr->toMIPS(dst, tempR, context);
         std::string _label = genUL(context.getScopeName());
@@ -71,7 +71,7 @@ public:
         stat2->toMIPS(dst, destReg, context);
         dst<<_labelT<<":"<<std::endl;
       }else if(type==3){
-        //todo
+        //todo 
       }
     }
 };

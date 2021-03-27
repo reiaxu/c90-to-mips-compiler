@@ -171,8 +171,4 @@ inline void o_bne(std::ostream &dst, std::string sReg,std::string tReg, std::str
     dst<<"bne "+sReg+','+tReg+','+label<<std::endl;
 }
 
-inline void o_b(std::ostream &dst,std::string label){
-    dst<<"b "+label<<std::endl;
-}
-
 #endif
