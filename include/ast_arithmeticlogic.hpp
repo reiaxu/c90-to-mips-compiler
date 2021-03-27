@@ -184,14 +184,14 @@ class ArLoExpr
         //evaluate like a less than then equal
         lhs->toMIPS(dst, left, context);
         rhs->toMIPS(dst, right, context);
-        //o_slt(dst, destReg, left, right);
+        o_loe(dst, destReg, left, right);
         break;
 
         // GE_OP: >=
         case(268):
         lhs->toMIPS(dst, left, context);
         rhs->toMIPS(dst, right, context);
-        //o_slt(dst, destReg, right, left);
+        o_loe(dst, destReg, right, left);
         break;
 
         // EQ_OP
@@ -210,6 +210,10 @@ class ArLoExpr
 
         // AND_OP
         case(271):
+        lhs->toMIPS(dst, left, context);
+        rhs->toMIPS(dst, right, context);
+        o_and(dst, destReg, left, right);
+        break;
 
         break;
 

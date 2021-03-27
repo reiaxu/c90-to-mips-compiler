@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "ast.hpp"
+#include "context.hpp"
 #include "ast_transalationalunit.hpp"
 
 FILE* input_file;
