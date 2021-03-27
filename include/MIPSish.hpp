@@ -4,6 +4,12 @@
 #include<iostream>
 #include <string>
 
+static int makeNameUnq=0;
+
+static std::string genUL(std::string base){
+    return "_"+base+"_"+std::to_string(makeNameUnq++);
+}
+
 inline void genL(std::ostream &dst, std::string label){
   dst<<label<<':'<<std::endl;
 }
