@@ -50,6 +50,10 @@ public:
     }
   }
 
+  std::string getStatType(){
+    return "jump";
+  }
+
 };
 
 #endif

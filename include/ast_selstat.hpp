@@ -52,7 +52,27 @@ public:
   }
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-      //todo
+      std::string tempR = "$t0"
+      if(type==1){
+        expr->toMIPS(dst, tempR, context);
+        std::string _label = genUL(context.getScopeName());
+        o_beq(dst, tempR, "$zero", _label);
+        stat1->toMIPS(dst, destReg, context);
+        dst<<_label<<":"<<std::endl;
+        //TODO: consider a JumpStat as stat1 :(
+      }else if(type==2){
+        expr->toMIPS(dst, tempR, context);
+        std::string _labelT = genUL(context.getScopeName());
+        std::string _labelF = genUL(context.getScopeName());
+        o_beq(dst, tempR, "$zero", _labelF);
+        stat1->toMIPS(dst, destReg, context);
+        o_b(dst, _labelT);
+        dst<<_labelF<<":"<<std::endl;
+        stat2->toMIPS(dst, destReg, context);
+        dst<<_labelT<<":"<<std::endl;
+      }else if(type==3){
+        //todo
+      }
     }
 };
 

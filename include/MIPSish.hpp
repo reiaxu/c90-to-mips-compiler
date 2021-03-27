@@ -4,6 +4,12 @@
 #include<iostream>
 #include <string>
 
+static int makeNameUnq=0;
+
+static std::string genUL(std::string base){
+    return "_"+base+"_"+std::to_string(makeNameUnq++);
+}
+
 inline void genL(std::ostream &dst, std::string label){
   dst<<label<<':'<<std::endl;
 }
@@ -163,6 +169,10 @@ inline void o_beq(std::ostream &dst, std::string sReg,std::string tReg,std::stri
 
 inline void o_bne(std::ostream &dst, std::string sReg,std::string tReg, std::string label){
     dst<<"bne "+sReg+','+tReg+','+label<<std::endl;
+}
+
+inline void o_b(std::ostream &dst,std::string label){
+    dst<<"b "+label<<std::endl;
 }
 
 #endif

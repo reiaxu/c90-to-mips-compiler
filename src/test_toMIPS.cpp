@@ -4,7 +4,7 @@
 int main()
 {
     const TranslationalUnit *ast=parseAST(NULL);
-    Bindings context = Bindings();
+    Bindings context = Bindings("global");
     std::cout<<"Printing MIPS assembly"<<std::endl;
     ast->toMIPS(std::cout, " ", context);
     std::cout<<std::endl;
