@@ -102,6 +102,9 @@ class ArLoExpr
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
       std::string left = "$t0";
       std::string right = "$t1";
+      std::string _labelF = " ";
+      std::string _labelT = " ";
+      std::string _label = " ";
       switch(optype){
 
         case((int)'&'):
@@ -211,15 +214,46 @@ class ArLoExpr
         // AND_OP
         case(271):
         lhs->toMIPS(dst, left, context);
-        rhs->toMIPS(dst, right, context);
-        o_and(dst, destReg, left, right);
-        break;
 
+        _labelF = genUL(context.getScopeName());
+        _labelT = genUL(context.getScopeName());
+
+        o_beq(dst, left, "$zero", _labelF);
+        o_nop(dst);
+        
+        rhs->toMIPS(dst, right, context);
+        o_beq(dst, right, "$zero", _labelF);
+        o_nop(dst);
+
+        o_li(dst, destReg, "1");
+        o_b(dst, _labelT);
+        o_nop(dst);
+        dst<<_labelF<<":"<<std::endl;
+        o_move(dst, destReg, "$zero");
+        dst<<_labelT<<":"<<std::endl;
         break;
 
         // OR_OP
         case(272):
+        lhs->toMIPS(dst, left, context);
+        _labelF = genUL(context.getScopeName());
+        _labelT = genUL(context.getScopeName());
+        _label = genUL(context.getScopeName());
+        o_bne(dst, left, "$zero", _labelT);
+        o_nop(dst);
 
+        rhs->toMIPS(dst, right, context);
+        o_beq(dst, right, "$zero", _labelF);
+        o_nop(dst);
+
+        dst<<_labelT<<":"<<std::endl;
+        o_li(dst, destReg, "1");
+        o_b(dst, _label);
+        o_nop(dst);
+
+        dst<<_labelF<<":"<<std::endl;
+        o_move(dst, destReg, "$zero");
+        dst<<_label<<":"<<std::endl;
         break;
 
         default:
