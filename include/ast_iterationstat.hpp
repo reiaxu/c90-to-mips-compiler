@@ -54,7 +54,7 @@ public:
         dst<<") ";
         stat->PrettyPrint(dst);
       }
-      else {
+    }else if(op==308) {
         dst<<"for (";
         exprstat1->PrettyPrint(dst);
         dst<<" ";
@@ -67,10 +67,30 @@ public:
 
     }
 
-  }
+
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
-    //TODO
+    std::string condR = "$t0";
+    if(op==305){
+      expr->toMIPS(dst, condR, context);
+      std::string _labelEx = genUL(context.getScopeName());
+      std::string _labelS = genUL(context.getScopeName());
+
+      dst<<_labelS<<":"<<std::endl;
+      o_beq(dst, condR, "$zero", _labelEx);
+      o_nop(dst);
+      stat->toMIPS(dst, destReg, context);
+      o_b(dst,_labelS);
+      o_nop(dst);
+
+      dst<<_labelEx<<":"<<std::endl;
+    }else if(op==306){
+
+    }else if(op==307){
+
+    }else if(op==308){
+
+    }
   }
 
 };
