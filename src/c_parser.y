@@ -91,7 +91,7 @@ SelectionStatement: IF '(' Expr ')' Statement {$$ = new SelStat(1, $3, $5);}
 IterationStatement: WHILE '(' Expr ')' Statement {$$ = new IterStat(305, $3, $5);}
                   | DO Statement WHILE '(' Expr ')' ';' {$$ = new IterStat(306, $5, $2);}
                   | FOR '(' ExpressionStatement ExpressionStatement ')' Statement {$$ = new IterStat(307, $3, $4, NULL, $6);}
-                  | FOR '(' ExpressionStatement ExpressionStatement Expr')' Statement {$$ = new IterStat(307, $3, $4, $5, $7);}
+                  | FOR '(' ExpressionStatement ExpressionStatement Expr')' Statement {$$ = new IterStat(308, $3, $4, $5, $7);}
                   ;
 
 ExpressionStatement: ';' {$$ = new ExprStat(NULL);}
