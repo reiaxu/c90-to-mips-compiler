@@ -72,11 +72,12 @@ public:
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
     std::string condR = "$t0";
     if(op==305){
-      expr->toMIPS(dst, condR, context);
       std::string _labelEx = genUL(context->getScopeName());
       std::string _labelS = genUL(context->getScopeName());
 
       dst<<_labelS<<":"<<std::endl;
+      expr->toMIPS(dst, condR, context);
+
       o_beq(dst, condR, "$zero", _labelEx);
       o_nop(dst);
 
@@ -104,8 +105,43 @@ public:
       dst<<_labelEx<<":"<<std::endl;
 
     }else if(op==307){
+      exprstat1->toMIPS(dst, condR, context);
+
+      std::string _labelEx = genUL(context->getScopeName());
+      std::string _labelS = genUL(context->getScopeName());
+
+      dst<<_labelS<<":"<<std::endl;
+      exprstat2->toMIPS(dst, condR, context);
+
+      o_beq(dst, condR, "$zero", _labelEx);
+      o_nop(dst);
+
+      stat->toMIPS(dst, destReg, context);
+
+      o_b(dst,_labelS);
+      o_nop(dst);
+
+      dst<<_labelEx<<":"<<std::endl;
 
     }else if(op==308){
+      exprstat1->toMIPS(dst, condR, context);
+
+      std::string _labelEx = genUL(context->getScopeName());
+      std::string _labelS = genUL(context->getScopeName());
+
+      dst<<_labelS<<":"<<std::endl;
+      exprstat2->toMIPS(dst, condR, context);
+
+      o_beq(dst, condR, "$zero", _labelEx);
+      o_nop(dst);
+
+      stat->toMIPS(dst, destReg, context);
+      expr->toMIPS(dst, destReg, context);
+
+      o_b(dst,_labelS);
+      o_nop(dst);
+
+      dst<<_labelEx<<":"<<std::endl;
 
     }
   }

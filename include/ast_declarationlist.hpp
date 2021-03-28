@@ -10,7 +10,7 @@
 
 class DeclList
     : public TranslationalUnit{
-    
+
     private:
     TransUnitPtr dlist;
     TransUnitPtr decl;
@@ -25,13 +25,14 @@ public:
 
     virtual void PrettyPrint(std::ostream &dst) const override{
         dlist->PrettyPrint(dst);
-        dst<<" ";
+        dst<<" " ;
         decl->PrettyPrint(dst);
 
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
-      //todo
+      dlist->toMIPS(dst, destReg, context);
+      decl->toMIPS(dst, destReg, context);
     }
 
 };
