@@ -49,13 +49,13 @@ class PrimaryExpr
       }
     }
 
-    /* std::string getName(){
+     std::string getName(){
       if(type=="identif"){
         return *val;
       }else{
-        std::assert(type=="identif");
+        //std::assert(type=="identif");
       }
-    }*/
+    }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       if(type=="int"){
@@ -64,6 +64,7 @@ class PrimaryExpr
         expr->toMIPS(dst, destReg, context);
       }else if(type=="identif"){
         std::string _offset = std::to_string(context->getOffset(*val));
+
         o_lw(dst, destReg, _offset,"$fp");
         o_nop(dst);
       }

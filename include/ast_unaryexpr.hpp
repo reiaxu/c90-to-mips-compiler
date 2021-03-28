@@ -2,6 +2,8 @@
 #define ast_unaryexpr_hpp
 
 #include "ast_transalationalunit.hpp"
+#include"ast_primaryexpr.hpp"
+
 #include "MIPSish.hpp"
 #include "context.hpp"
 
@@ -48,6 +50,9 @@ public:
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       std::string unarytemp = "$t0";
+      std::string var_name;
+      std::string _offset;
+      PrimaryExpr *_castedpe;
       switch(prefix){
         case(int('!')):
           //unsure abt implementation, didnt include addiu like in godbolt
@@ -78,6 +83,24 @@ public:
         case(int('&')):
           //TODO: addressof stuff? naive implementation just li destReg getOffset($fp)?
 
+        break;
+
+        case(int(263)):
+        unaryexpr->toMIPS(dst, unarytemp, context);
+        o_addiu(dst, unarytemp, unarytemp, "1");
+        _castedpe = (PrimaryExpr*) unaryexpr;
+        var_name = _castedpe->getName();
+        _offset = std::to_string(context->getOffset(var_name));
+        o_sw(dst, unarytemp, _offset, "$fp");
+        break;
+
+        case(int(264)):
+        unaryexpr->toMIPS(dst, unarytemp, context);
+        o_addiu(dst, unarytemp, destReg, "-1");
+        _castedpe = (PrimaryExpr*) unaryexpr;
+        var_name = _castedpe->getName();
+        _offset = std::to_string(context->getOffset(var_name));
+        o_sw(dst, unarytemp, _offset, "$fp");
         break;
 
       /*if(unaryexpr->getType()=="int"){

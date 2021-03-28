@@ -81,15 +81,15 @@ public:
       o_nop(dst);
 
       stat->toMIPS(dst, destReg, context);
-      
+
       o_b(dst,_labelS);
       o_nop(dst);
 
       dst<<_labelEx<<":"<<std::endl;
 
     }else if(op==306){
-      std::string _labelEx = genUL(context.getScopeName());
-      std::string _labelS = genUL(context.getScopeName());
+      std::string _labelEx = genUL(context->getScopeName());
+      std::string _labelS = genUL(context->getScopeName());
 
       dst<<_labelS<<":"<<std::endl;
       stat->toMIPS(dst, destReg, context);
