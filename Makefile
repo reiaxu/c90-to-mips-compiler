@@ -1,13 +1,15 @@
 CPPFLAGS += -std=c++17 -W -Wall -g -Wno-unused-parameter
 CPPFLAGS += -I include
 
-bin/c_compiler : bin/compiler src/wrapper.sh
-	cp src/wrapper.sh bin/c_compiler
-	chmod u+x bin/c_compiler
+# bin/c_compiler : bin/compiler src/wrapper.sh
+# 	cp src/wrapper.sh bin/c_compiler
+# 	chmod u+x bin/c_compiler
 
-bin/compiler : src/compiler.cpp src/c_lexer.yy.cpp src/c_parser.tab.cpp src/c_parser.tab.hpp include/*
+bin/c_compiler : src/compiler.cpp src/c_lexer.yy.cpp src/c_parser.tab.cpp src/c_parser.tab.hpp include/*
 	mkdir -p bin
-	g++ $(CPPFLAGS) -o bin/compiler $^
+	g++ $(CPPFLAGS) -o bin/c_compiler $^
+	chmod u+x bin/c_compiler
+	dos2unix ./run_tests.sh
 
 bin/toMIPS: src/c_lexer.yy.cpp src/c_parser.tab.cpp src/c_parser.tab.hpp include/*
 	make src/c_parser.tab.cpp src/c_parser.tab.hpp src/c_lexer.yy.cpp
