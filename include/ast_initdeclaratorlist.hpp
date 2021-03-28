@@ -30,7 +30,7 @@ public:
         decl->PrettyPrint(dst);
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       list->toMIPS(dst, destReg, context);
       decl->toMIPS(dst, destReg, context);
     }

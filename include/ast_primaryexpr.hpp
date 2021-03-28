@@ -57,13 +57,13 @@ class PrimaryExpr
       }
     }*/
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       if(type=="int"){
         o_li(dst, destReg, *(val));
       }else if(type=="expr"){
         expr->toMIPS(dst, destReg, context);
       }else if(type=="identif"){
-        std::string _offset = std::to_string(context.getOffset(*val));
+        std::string _offset = std::to_string(context->getOffset(*val));
         o_lw(dst, destReg, _offset,"$fp");
         o_nop(dst);
       }

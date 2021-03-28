@@ -39,7 +39,7 @@ public:
     }
   }
 
-  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
     if(expr==0){
       if(jump=="return"){
         o_nop(dst);

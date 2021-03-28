@@ -24,7 +24,7 @@ public:
 
 //  virtual void toMIPS(std::ostream &dst, std::string destReg) const = 0;
 
-  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const = 0;
+  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const = 0;
     //maybe make vector<Bindings> so that you can manage scopes better?
     //create new Bidning at the start of each function/scope, append then delete when done
 };

@@ -52,7 +52,7 @@ public:
     }
   }
 
-  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
     if ((decl == NULL) && (statl == NULL)) {
         //do nothing?
     }

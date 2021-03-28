@@ -99,7 +99,7 @@ class ArLoExpr
       }
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       std::string left = "$t0";
       std::string right = "$t1";
       std::string _labelF = " ";
@@ -215,8 +215,8 @@ class ArLoExpr
         case(271):
         lhs->toMIPS(dst, left, context);
 
-        _labelF = genUL(context.getScopeName());
-        _labelT = genUL(context.getScopeName());
+        _labelF = genUL(context->getScopeName());
+        _labelT = genUL(context->getScopeName());
 
         o_beq(dst, left, "$zero", _labelF);
         o_nop(dst);
@@ -236,9 +236,9 @@ class ArLoExpr
         // OR_OP
         case(272):
         lhs->toMIPS(dst, left, context);
-        _labelF = genUL(context.getScopeName());
-        _labelT = genUL(context.getScopeName());
-        _label = genUL(context.getScopeName());
+        _labelF = genUL(context->getScopeName());
+        _labelT = genUL(context->getScopeName());
+        _label = genUL(context->getScopeName());
         o_bne(dst, left, "$zero", _labelT);
         o_nop(dst);
 

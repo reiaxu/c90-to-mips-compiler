@@ -32,9 +32,13 @@ public:
             assexpr->PrettyPrint(dst);
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       //todo;
-      //if 
+    //   std::string unarytemp = "$t0";
+    //   unaryexpr->toMIPS(dst, unarytemp, context);
+    //   if (op==int('=')){
+    //     o_sw(dst, unary)
+    //   }
       //unaryexpr->PrettyPrint(dst);
 
     };

@@ -37,7 +37,7 @@ public:
     }
 
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       if(init!=NULL){
         std::string temp = "$t0";
         //evaluate init, store in destReg
@@ -45,8 +45,8 @@ public:
         //get name of var and its offset
         DirectDecl *_casted = (DirectDecl*) decl;
         std::string var_name = _casted->getName();
-        context.insertBinding(var_name);
-        std::string _offset = std::to_string(context.getOffset(var_name));
+        context->insertBinding(var_name);
+        std::string _offset = std::to_string(context->getOffset(var_name));
         //load temp into memaddr of decl
         o_sw(dst, temp, _offset, "$fp");
 

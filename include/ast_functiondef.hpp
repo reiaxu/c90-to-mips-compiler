@@ -51,7 +51,7 @@ class FunctionDef
       }
     }
 
-    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+    virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       //prior to func execution, store return addr, store args to func
       //DirectDecl* decl = (DirectDecl*) declarator;
       //declarator->toMIPS(dst, "LABEL", context);
@@ -65,7 +65,7 @@ class FunctionDef
       o_sw(dst,"$ra","4","$sp");
       //o_sw(dst,"$fp","OFFSET?","$sp");
       o_move(dst, "$fp", "$sp");
-      Bindings funccontext = Bindings(_casted->getName());
+      Bindings* funccontext = new Bindings(_casted->getName());
       compoundstat->toMIPS(dst, destReg, funccontext);
       o_move(dst, "$sp", "$fp");
       //o_lw(dst, "$fp", "OFFSET?", "$sp");
