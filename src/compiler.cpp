@@ -19,8 +19,8 @@ int main(int argc, char* argv[])
 			//Lex and parse to build AST
 			const TranslationalUnit *ast=parseAST(input_file);
 			//start codeGen
-	    Bindings context = Bindings("main", 10);
-	    ast->toMIPS(std::cout, " ", context);
+	    Bindings context = Bindings("main");
+	    ast->toMIPS(output_file, " ", context);
 
 			fclose(input_file);
 			output_file.close();
