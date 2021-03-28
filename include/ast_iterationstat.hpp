@@ -69,12 +69,12 @@ public:
 
 
 
-  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings context) const override{
+  virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
     std::string condR = "$t0";
     if(op==305){
       expr->toMIPS(dst, condR, context);
-      std::string _labelEx = genUL(context.getScopeName());
-      std::string _labelS = genUL(context.getScopeName());
+      std::string _labelEx = genUL(context->getScopeName());
+      std::string _labelS = genUL(context->getScopeName());
 
       dst<<_labelS<<":"<<std::endl;
       o_beq(dst, condR, "$zero", _labelEx);

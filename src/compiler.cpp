@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 			//Lex and parse to build AST
 			const TranslationalUnit *ast=parseAST(input_file);
 			//start codeGen
-	    Bindings context = Bindings("main");
+	    Bindings* context = new Bindings("main");
 	    ast->toMIPS(output_file, " ", context);
 
 			fclose(input_file);
