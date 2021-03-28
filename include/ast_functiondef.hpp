@@ -66,7 +66,7 @@ class FunctionDef
       //o_sw(dst,"$fp","OFFSET?","$sp");
       o_move(dst, "$fp", "$sp");
       Bindings* funccontext = new Bindings(_casted->getName());
-      compoundstat->toMIPS(dst, destReg, funccontext);
+      compoundstat->toMIPS(dst, "$2", funccontext);
       o_move(dst, "$sp", "$fp");
       //o_lw(dst, "$fp", "OFFSET?", "$sp");
       //make sure to get $ra and $fp off stack!

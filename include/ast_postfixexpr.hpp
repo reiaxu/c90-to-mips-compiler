@@ -2,6 +2,7 @@
 #define ast_postfixexpr_hpp
 
 #include"ast_transalationalunit.hpp"
+#include"ast_primaryexpr.hpp"
 #include "MIPSish.hpp"
 #include "context.hpp"
 
@@ -58,7 +59,42 @@ public:
     }*/
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
-      //TODO.
+      std::string postfixtemp = "$t0";
+      std::string var_name;
+      std::string _offset;
+      PrimaryExpr *_castedpf;
+
+        //x++
+      if(op == 263){
+            postfixptr->toMIPS(dst, postfixtemp, context);
+            o_addiu(dst, destReg, postfixtemp, "1");
+            _castedpf = (PrimaryExpr*) postfixptr;
+            var_name = _castedpf->getName();
+            _offset = std::to_string(context->getOffset(var_name));
+            o_sw(dst, destReg, _offset, "$fp");
+        }
+
+      //x--
+      if(op == 264){
+            postfixptr->toMIPS(dst, postfixtemp, context);
+            o_addiu(dst, destReg, postfixtemp, "-1");
+            _castedpf = (PrimaryExpr*) postfixptr;
+            var_name = _castedpf->getName();
+            _offset = std::to_string(context->getOffset(var_name));
+            o_sw(dst, destReg, _offset, "$fp");
+        }  
+
+        if (op==0){
+          postfixptr->toMIPS(dst, postfixtemp, context);
+          _castedpf = (PrimaryExpr*) postfixptr;
+          var_name = _castedpf->getName();
+          _offset = std::to_string(context->getOffset(var_name));
+          o_jal(dst, var_name);
+          o_nop(dst);
+
+          o_sw(dst, postfixtemp, _offset, "$fp");
+        }
+
     };
 
 

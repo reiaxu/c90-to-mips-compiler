@@ -85,6 +85,7 @@ public:
 
         break;
 
+        // ++x
         case(int(263)):
         unaryexpr->toMIPS(dst, unarytemp, context);
         o_addiu(dst, unarytemp, unarytemp, "1");
@@ -94,6 +95,7 @@ public:
         o_sw(dst, unarytemp, _offset, "$fp");
         break;
 
+        // --x
         case(int(264)):
         unaryexpr->toMIPS(dst, unarytemp, context);
         o_addiu(dst, unarytemp, destReg, "-1");

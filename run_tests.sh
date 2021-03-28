@@ -9,6 +9,7 @@ make bin/c_compiler
 
 mkdir working
 
+
 find compiler_tests/"$selection" -type f -not -iname "*_driver.c"|while read -r testcase; do
     echo "Compiling $testcase in $selection"
     test_case_bn=$(basename "$testcase" .c)
