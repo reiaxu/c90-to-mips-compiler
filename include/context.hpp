@@ -6,41 +6,61 @@
 #include<string>
 #include<vector>
 #include <unordered_map>
+#include<iostream>
 
 //typedef const TranslationalUnit *TransUnitPtr;
 
 struct type_pos{
-  std::string type;
+  //std::string type;
   int stack_offset;
 };
 
 class Bindings{
   private:
-    int curr_stack_size = 0;
-    std::string frame_id;
-    int stack_frame;
-    std::unordered_map< std::string,type_pos> var_bindings;
+    std::string scopeName;
+    int curr_stack_size = 8; //stack size wrt $fp
+    int stack_frame; //value of $fp?
+    std::unordered_map< std::string,int> var_bindings; //bindings of all vars and their offsets wrt to $fp (value of stack pos when they were pushed)
 
   public:
-    Bindings(std::string frame, int stackaddr):frame_id(frame),stack_frame(stackaddr){}
+    Bindings(std::string _scopeName):scopeName(_scopeName){};
     ~Bindings(){
       //free memory with type_pos.type?
     };
 
-    void InsertBinding(const std::string _name,std::string _type){
-      type_pos varinfo;
-      curr_stack_size += 4;
-      varinfo.type = _type;
-      varinfo.stack_offset = curr_stack_size;
-      var_bindings[_name] = varinfo;
+    void insertBinding(const std::string _name/*,std::string _type*/){
+
+      if(var_bindings.find("_name") != var_bindings.end()){
+        //updateBinding(_name); --> just have it check if it is in, store value in temp then just use that in the same way but ya
+        //is this even needed?
+      }else{
+        //type_pos varinfo;
+        //varinfo.type = _type;
+        //varinfo.stack_offset = curr_stack_size;
+        //var_bindings[_name] = curr_stack_size;
+        var_bindings.insert(std::make_pair(_name,curr_stack_size));
+        curr_stack_size += 4;
+      }
+   }
+
+    int getOffset(const std::string _name){
+      int off = var_bindings[_name];
+      return off;
     }
 
-    const int getOffset(const std::string _name){
-      return var_bindings[_name].stack_offset;
-    }
-
-    const int getNumVar(){
+   int getNumVar(){
       return var_bindings.size();
+    }
+
+    void printContext(std::ostream &dst){
+      for(const auto& x : var_bindings) {
+        dst<<x.first << ": " << x.second << "\n";
+      }
+    }
+
+    std::string getScopeName()
+    {
+        return scopeName;
     }
 
 };
