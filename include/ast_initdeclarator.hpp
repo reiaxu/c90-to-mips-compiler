@@ -50,7 +50,12 @@ public:
         //load temp into memaddr of decl
         o_sw(dst, temp, _offset, "$fp");
 
-      }
+      }std::string temp = "$t0";
+      //evaluate init, store in destReg
+      init->toMIPS(dst, temp, context);
+      //get name of var and its offset
+      DirectDecl *_casted = (DirectDecl*) decl;
+      std::string var_name = _casted->getName();
     }
 
 };
