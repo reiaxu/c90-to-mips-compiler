@@ -10,7 +10,7 @@
 
 class ArgExprList
     : public TranslationalUnit{
-    
+
     private:
     TransUnitPtr list;
     TransUnitPtr expr;
@@ -24,14 +24,15 @@ public:
     }
 
     virtual void PrettyPrint(std::ostream &dst) const override{
-        
+
         list->PrettyPrint(dst);
         dst<<", ";
         expr->PrettyPrint(dst);
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
-        //todo
+        list->toMIPS(dst, "$5", context);
+        expr->toMIPS(dst, destReg, context);
   }
 
 };
