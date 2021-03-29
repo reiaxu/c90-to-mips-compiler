@@ -60,7 +60,7 @@
 ROOT: TranslationalUnit {g_root = $1;}
 
 TranslationalUnit: ExternalDec {$$ = $1;}
-| TranslationalUnit ExternalDec {/*$$=new TranslationalUnit($1, $2);*/;}
+| TranslationalUnit ExternalDec {$$= new nonABSTransUnit($1, $2);}
                  ;
 
 ExternalDec: FunctionDef {$$=$1;}
@@ -349,7 +349,7 @@ UnaryExpr: PostfixExpr {$$=$1;}
 PostfixExpr: PrimaryExpr {$$=$1;}
             | PostfixExpr '[' Expr ']' {;}
           	| PostfixExpr '(' ')' {$$ = new PostfixExpr($1, 0);}
-            | PostfixExpr '(' ArgExprList ')' {;}
+            | PostfixExpr '(' ArgExprList ')' {$$ = new PostfixExpr($1, $3, 1);}
           	| PostfixExpr '.' IDENTIFIER {$$ = new PostfixExpr($1, $3, int('.'));}
           	| PostfixExpr PTR_OP IDENTIFIER {$$ = new PostfixExpr($1, $3, 262);}
           	| PostfixExpr INC_OP {$$ = new PostfixExpr($1, 263);}

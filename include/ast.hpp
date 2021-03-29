@@ -2,6 +2,7 @@
 #define ast_hpp
 
 #include "ast_transalationalunit.hpp"
+#include "ast_nonabstransunit.hpp"
 #include "ast_functiondef.hpp"
 #include "ast_typespec.hpp"
 #include "ast_arithmeticlogic.hpp"
