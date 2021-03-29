@@ -44,6 +44,7 @@ SLC   "//"
 
 {D}+          { yylval.string = new std::string(yytext); return CONSTANT; }
 {I}           { yylval.string = new std::string(yytext); return IDENTIFIER; }
+\'(\\.|[^\\"])\' { yylval.string = new std::string(yytext); return CONSTANT; }
 
 ">>="	    		{ count(); return(RIGHT_ASSIGN); }
 "<<="	    		{ count(); return(LEFT_ASSIGN); }
