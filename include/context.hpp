@@ -15,12 +15,16 @@ struct type_pos{
   int stack_offset;
 };
 
+typedef std::vector<std::string> Params;
+
 class Bindings{
   private:
     std::string scopeName;
     int curr_stack_size = 8; //stack size wrt $fp
     int stack_frame; //value of $fp?
     std::unordered_map< std::string,int> var_bindings; //bindings of all vars and their offsets wrt to $fp (value of stack pos when they were pushed)
+    Params func_args;
+    int num_of_args=0;
 
   public:
     Bindings(std::string _scopeName):scopeName(_scopeName){};
@@ -48,9 +52,31 @@ class Bindings{
       return off;
     }
 
-   int getNumVar(){
+    int getNumVar(){
       return var_bindings.size();
     }
+
+    void insertArgBinding(const std::string _name){
+      num_of_args++;
+      func_args.push_back(_name);
+    }
+
+    int getAllArgNum(){
+      return num_of_args;
+    }
+
+    /*int getArgNum(const std::string _name){
+      auto it = find(func_args.begin(), func_args.end(), _name);
+      // found
+      if (it != func_args.end()){
+          // calculating the index
+          int index = it - func_args.begin();
+          return index;
+      }else{
+          //not in list?
+          return -1;
+      }
+    }*/
 
     void printContext(std::ostream &dst){
       for(const auto& x : var_bindings) {
@@ -65,13 +91,11 @@ class Bindings{
 
 };
 
-typedef struct var_param{
+/*typedef struct var_param{
 
   std::string type;
   std::string name;
 
-}param;
-
-typedef std::vector<param> Params;
+}param;*/
 
 #endif

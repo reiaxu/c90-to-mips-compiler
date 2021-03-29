@@ -63,13 +63,15 @@ class FunctionDef
       o_addiu(dst, "$sp", "$sp", "-8");
       o_sw(dst,"$fp","0","$sp");
       o_sw(dst,"$ra","4","$sp");
-      //declarator->toMIPS(dst, destReg, context);
-      //o_sw(dst,"$fp","OFFSET?","$sp");
       o_move(dst, "$fp", "$sp");
+
       Bindings* funccontext = new Bindings(_casted->getName());
+
+      declarator->toMIPS(dst, destReg, funccontext);
+
       compoundstat->toMIPS(dst, "$2", funccontext);
+
       o_move(dst, "$sp", "$fp");
-      //o_lw(dst, "$fp", "OFFSET?", "$sp");
       //make sure to get $ra and $fp off stack!
       o_lw(dst, "$fp", "0", "$sp");
       o_lw(dst, "$ra", "4", "$sp");

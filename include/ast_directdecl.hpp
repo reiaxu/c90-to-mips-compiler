@@ -69,6 +69,9 @@ public:
      }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
+      if(type==5){
+        list->toMIPS(dst, destReg, context);
+      }
       /*if(destReg=="LABEL"){
         if(type==0){
             genL(dst, *identif);

@@ -2,6 +2,8 @@
 #define ast_paramdecl_hpp
 
 #include"ast_transalationalunit.hpp"
+#include"ast_directdecl.hpp"
+
 
 #include<string>
 #include<map>
@@ -35,8 +37,23 @@ public:
   }
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
-      //todo
+    DirectDecl *_casted = (DirectDecl*) decl;
+    std::string arg_name = _casted->getName();
+    context->insertBinding(arg_name);
+    context->insertArgBinding(arg_name);
+    std::string _offset = std::to_string(context->getOffset(arg_name));
+    //if(destReg==" ") destReg="$4";
+    int argRank = context->getAllArgNum();
+    if(argRank==1){
+      o_sw(dst, "$4", _offset, "$fp");
+    }else if(argRank==2){
+      o_sw(dst, "$5", _offset, "$fp");
+    }else if(argRank==3){
+      o_sw(dst, "$6", _offset, "$fp");
+    }else if(argRank==4){
+      o_sw(dst, "$7", _offset, "$fp");
     }
+  }
 };
 
 #endif
