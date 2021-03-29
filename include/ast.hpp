@@ -27,6 +27,8 @@
 #include "ast_declaration.hpp"
 #include "ast_declarationlist.hpp"
 #include "ast_initializerlist.hpp"
+#include "ast_enumeratorlist.hpp"
+#include "ast_enumspecifier.hpp"
 
 extern const TranslationalUnit* parseAST(FILE* fp);
 

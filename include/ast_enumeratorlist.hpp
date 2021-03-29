@@ -1,5 +1,5 @@
-#ifndef ast_argexprlist_hpp
-#define ast_argexprlist_hpp
+#ifndef ast_enumeratorlist_hpp
+#define ast_enumeratorlist_hpp
 
 #include"ast_transalationalunit.hpp"
 
@@ -8,32 +8,32 @@
 #include<iostream>
 
 
-class ArgExprList
+class EnumeratorList
     : public TranslationalUnit{
 
     private:
     TransUnitPtr list;
-    TransUnitPtr expr;
+    TransUnitPtr en;
 
 public:
-    ArgExprList(TransUnitPtr list_, TransUnitPtr expr_):list(list_),expr(expr_){}
+    EnumeratorList(TransUnitPtr list_, TransUnitPtr en_):list(list_),en(en_){}
 
-    ~ArgExprList() override{
+    ~EnumeratorList() override{
         delete list;
-        delete expr;
+        delete en;
     }
 
     virtual void PrettyPrint(std::ostream &dst) const override{
 
         list->PrettyPrint(dst);
         dst<<", ";
-        expr->PrettyPrint(dst);
+        en->PrettyPrint(dst);
     }
 
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
         
         list->toMIPS(dst, "$5", context);
-        expr->toMIPS(dst, "$4", context);
+        en->toMIPS(dst, "$4", context);
   }
 
 };

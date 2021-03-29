@@ -48,6 +48,7 @@
 %type <tu> StatementList Statement CompoundStatement JumpStatement LabeledStatement ExpressionStatement IterationStatement SelectionStatement
 %type <tu> Expr AssignExpr ConstantExpr CondExpr LogicalORExpr LogicalANDExpr ORExpr XORExpr ANDExpr EqualityExpr RelationalExpr ShiftExpr AdditiveExpr MultiplicativeExpr UnaryExpr PostfixExpr PrimaryExpr ParameterDeclaration ArgExprList
 %type <tu> DeclarationList Declaration DeclarationSpec TypeName TypeSpec SpecQualifierList StorageClassSpec
+%type <tu> EnumeratorList Enumerator EnumeratorSpecifier
 %type <tu> ParameterTypeList ParameterList Identifierlist InitDeclaratorList InitDeclarator InitializerList Initializer DirectDeclarator Declarator
 %type <string> IDENTIFIER CONSTANT STRING_LITERAL
 %type <number> AssignOp
@@ -165,6 +166,22 @@ enumerator
 	| IDENTIFIER '=' ConstantExpr
 	;
 struct and enum stuff end*/
+
+EnumeratorSpecifier
+	: ENUM '{' EnumeratorList '}' {$$ = new EnumSpec(NULL, $3);}
+	| ENUM IDENTIFIER '{' EnumeratorList '}' {$$ = new EnumSpec($2, $4);}
+	| ENUM IDENTIFIER {$$ = new EnumSpec($2, NULL);}
+	;
+
+EnumeratorList
+	: Enumerator {$$ = $1;}
+	| EnumeratorList ','Enumerator {$$ = new EnumeratorList($1, $3)}
+	;
+
+Enumerator
+	: IDENTIFIER {$$ = $1;}
+  | IDENTIFIER '=' ConstantExpr {;}
+  ;
 
 ParameterTypeList: ParameterList {$$=$1;}
                  ;
