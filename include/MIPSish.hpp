@@ -134,8 +134,9 @@ inline void o_loe(std::ostream &dst, std::string dReg,std::string sReg,std::stri
 }
 
 inline void o_eq(std::ostream &dst, std::string dReg,std::string sReg,std::string tReg){
-    dst<<"sub "+dReg+','+sReg+','+tReg<<std::endl;
-    dst<<"slt"+dReg+','+dReg+','+"$0"<<std::endl;
+    dst<<"xor "+dReg+','+sReg+','+tReg<<std::endl;
+    dst<<"sltiu "+dReg+','+dReg+','+"1"<<std::endl;
+    dst<<"andi "+dReg+','+dReg+','+"255"<<std::endl;
 }
 
 inline void o_neq(std::ostream &dst, std::string dReg,std::string sReg,std::string tReg){
