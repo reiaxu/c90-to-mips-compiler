@@ -60,7 +60,7 @@
 ROOT: TranslationalUnit {g_root = $1;}
 
 TranslationalUnit: ExternalDec {$$ = $1;}
-                 | TranslationalUnit ExternalDec {;}
+| TranslationalUnit ExternalDec {/*$$=new TranslationalUnit($1, $2);*/;}
                  ;
 
 ExternalDec: FunctionDef {$$=$1;}

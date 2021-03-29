@@ -63,6 +63,7 @@ class FunctionDef
       o_addiu(dst, "$sp", "$sp", "-8");
       o_sw(dst,"$fp","0","$sp");
       o_sw(dst,"$ra","4","$sp");
+      //declarator->toMIPS(dst, destReg, context);
       //o_sw(dst,"$fp","OFFSET?","$sp");
       o_move(dst, "$fp", "$sp");
       Bindings* funccontext = new Bindings(_casted->getName());

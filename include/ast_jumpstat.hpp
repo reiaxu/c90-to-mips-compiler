@@ -47,6 +47,14 @@ public:
     }else{
       //std::string destReg = "$2";
       expr->toMIPS(dst,"$2", context);
+      o_move(dst, "$sp", "$fp");
+      //o_lw(dst, "$fp", "OFFSET?", "$sp");
+      //make sure to get $ra and $fp off stack!
+      o_lw(dst, "$fp", "0", "$sp");
+      o_lw(dst, "$ra", "4", "$sp");
+      o_addiu(dst, "$sp", "$sp", "8");
+      o_jr(dst,"$ra");
+      o_nop(dst);
     }
   }
 
