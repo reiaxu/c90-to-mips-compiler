@@ -47,6 +47,11 @@ class Bindings{
       }
    }
 
+    void insertArrayBinding(const std::string _name, int _sizeofarray){
+      var_bindings.insert(std::make_pair(_name,curr_stack_size));
+      curr_stack_size += (4*_sizeofarray);
+    }
+
     int getOffset(const std::string _name){
       int off = var_bindings[_name];
       return off;

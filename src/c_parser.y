@@ -289,7 +289,7 @@ Initializer: AssignExpr {$$=$1;}
 ConstantExpr: CondExpr {$$=$1;}
 	          ;
 
-ArgExprList: AssignExpr {$$=$1;}
+ArgExprList: AssignExpr {$$= $1;}
            | ArgExprList ',' AssignExpr {$$=new ArgExprList($1, $3);}
            ;
 

@@ -68,6 +68,14 @@ public:
          }
      }
 
+    int getType(){
+      return type;
+    }
+
+    TransUnitPtr getConstExpr(){
+      return list;
+    }
+
     virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
       if(type==5){
         list->toMIPS(dst, destReg, context);

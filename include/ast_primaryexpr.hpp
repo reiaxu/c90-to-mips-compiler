@@ -50,7 +50,7 @@ class PrimaryExpr
     }
 
      std::string getName(){
-      if(type=="identif"){
+      if(type=="identif"||type=="int"){
         return *val;
       }else{
         //std::assert(type=="identif");
