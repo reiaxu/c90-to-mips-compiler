@@ -12,6 +12,7 @@ class ParamList
   private:
   TransUnitPtr plist;
   TransUnitPtr pdecl;
+  int count = 0;
 
   protected:
 
@@ -30,7 +31,8 @@ public:
   }
 
   virtual void toMIPS(std::ostream &dst, std::string destReg, Bindings* context) const override{
-      //todo
+      plist->toMIPS(dst, "$4", context);
+      pdecl->toMIPS(dst, "$5", context);
     }
 };
 
