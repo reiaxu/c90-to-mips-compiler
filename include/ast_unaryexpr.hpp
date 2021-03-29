@@ -3,6 +3,7 @@
 
 #include "ast_transalationalunit.hpp"
 #include"ast_primaryexpr.hpp"
+#include"ast_typespec.hpp"
 
 #include "MIPSish.hpp"
 #include "context.hpp"
@@ -17,14 +18,16 @@ class UnaryExpr
    private:
     int prefix;
     TransUnitPtr unaryexpr;
+    TransUnitPtr tn;
 
 public:
     UnaryExpr(int u, TransUnitPtr p):prefix(u),unaryexpr(p){}
-
+    UnaryExpr(int u, TransUnitPtr p, TransUnitPtr t):prefix(u),unaryexpr(p),tn(t){}
 
     ~UnaryExpr() override{
 
         delete unaryexpr;
+        delete tn;
     }
 
 
@@ -44,6 +47,15 @@ public:
             if (prefix==264) {
                 dst<<"--";
                 unaryexpr->PrettyPrint(dst);
+            }
+            if (prefix==201 && tn==NULL){
+              dst<<"sizeof ";
+              unaryexpr->PrettyPrint(dst);
+            }
+            if (prefix==201 && unaryexpr==NULL){
+              dst<<"sizeof (";
+              tn->PrettyPrint(dst);
+              dst<<") ";
             }
         }
     }
@@ -105,7 +117,35 @@ public:
         o_sw(dst, unarytemp, _offset, "$fp");
         break;
 
-      /*if(unaryexpr->getType()=="int"){
+        case(int(261)):
+        if (tn==NULL){
+          o_li(dst, destReg, "4");
+        }
+        else if (unaryexpr==NULL){
+          TypeSpec *_casted = (TypeSpec*) tn;
+          std::string type = _casted->getType();
+          if (type=="int" || type=="float" || type=="unsigned" || type=="signed"){
+            o_li(dst, destReg, "4");
+          }
+          else if (type=="char" || type=="void"){
+            o_li(dst, destReg, "1");
+          }
+          else if (type=="short"){
+            o_li(dst, destReg, "2");
+          }
+          else if (type=="double" || type=="long"){
+            o_li(dst, destReg, "8");
+          }
+        } 
+        }
+      }
+
+};
+
+
+
+#endif
+     /*if(unaryexpr->getType()=="int"){
         switch(prefix){
           case(int(!)):
             dst<<"li"<<' '+destReg+' '<<!(*val);
@@ -131,11 +171,3 @@ public:
             //TODO
           break;
         }*/
-        }
-      }
-
-};
-
-
-
-#endif

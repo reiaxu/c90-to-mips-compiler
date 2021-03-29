@@ -30,21 +30,21 @@ for CATEGORY in compiler_tests/* ; do
         bin/c_compiler -S compiler_tests/$SECTION/$NAME.c -o working/${SECTION}/${NAME}.s
         if [[ $? -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Couldn't output to .s\n"
-            allFAILED+=( $NAME )
+            allFAILED+=( $SECTION"/"$NAME )
             continue
         fi
 
         mips-linux-gnu-gcc -mfp32 -o working/${SECTION}/${NAME}.o -c working/${SECTION}/${NAME}.s
         if [[ $? -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Couldn't compile driver program using GCC.\n"
-            allFAILED+=( $NAME )
+            allFAILED+=( $SECTION"/"$NAME )
             continue
         fi
 
         mips-linux-gnu-gcc -mfp32 -static -o working/${SECTION}/${NAME} working/${SECTION}/${NAME}.o compiler_tests/${SECTION}/${NAME}_driver.c
         if [[ $? -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Linker returned error message.\n"
-            allFAILED+=( $NAME )
+            allFAILED+=( $SECTION"/"$NAME )
             continue
         fi
 
@@ -52,7 +52,7 @@ for CATEGORY in compiler_tests/* ; do
         RESULT=$?
         if [[ "$RESULT" -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Testcase returned $RESULT, but expected 0.\n"
-            allFAILED+=( $NAME )
+            allFAILED+=( $SECTION"/"$NAME )
             continue
         fi
 

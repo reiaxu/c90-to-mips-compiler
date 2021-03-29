@@ -342,8 +342,8 @@ UnaryExpr: PostfixExpr {$$=$1;}
         	| INC_OP UnaryExpr {$$ = new UnaryExpr(263, $2);}
         	| DEC_OP UnaryExpr {$$ = new UnaryExpr(264, $2);}
         	| UnaryOp UnaryExpr {$$ = new UnaryExpr(int($1), $2);}
-        	| SIZEOF UnaryExpr {;}
-        	| SIZEOF '(' TypeName ')' {;}
+        	| SIZEOF UnaryExpr {$$ = new UnaryExpr(261, $2, NULL);}
+        	| SIZEOF '(' TypeName ')' {$$ = new UnaryExpr(261, NULL, $3);}
         	;
 
 PostfixExpr: PrimaryExpr {$$=$1;}
