@@ -167,21 +167,18 @@ enumerator
 	;
 struct and enum stuff end*/
 
-EnumeratorSpecifier
-	: ENUM '{' EnumeratorList '}' {$$ = new EnumSpec(NULL, $3);}
-	| ENUM IDENTIFIER '{' EnumeratorList '}' {$$ = new EnumSpec($2, $4);}
-	| ENUM IDENTIFIER {$$ = new EnumSpec($2, NULL);}
-	;
+EnumeratorSpecifier: ENUM '{' EnumeratorList '}' {$$ = new EnumSpec(NULL, $3);}
+                  	| ENUM IDENTIFIER '{' EnumeratorList '}' {$$ = new EnumSpec($2, $4);}
+                  	| ENUM IDENTIFIER {$$ = new EnumSpec($2, NULL);}
+                  	;
 
-EnumeratorList
-	: Enumerator {$$ = $1;}
-	| EnumeratorList ','Enumerator {$$ = new EnumeratorList($1, $3)}
-	;
+EnumeratorList: Enumerator {$$ = $1;}
+            	| EnumeratorList ','Enumerator {$$ = new EnumeratorList($1, $3)}
+            	;
 
-Enumerator
-	: IDENTIFIER {$$ = $1;}
-  | IDENTIFIER '=' ConstantExpr {;}
-  ;
+Enumerator: IDENTIFIER {$$ = $1;}
+          | IDENTIFIER '=' ConstantExpr {;}
+          ;
 
 ParameterTypeList: ParameterList {$$=$1;}
                  ;
