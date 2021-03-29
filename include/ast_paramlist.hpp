@@ -12,7 +12,6 @@ class ParamList
   private:
   TransUnitPtr plist;
   TransUnitPtr pdecl;
-  int count = 0;
 
   protected:
 
