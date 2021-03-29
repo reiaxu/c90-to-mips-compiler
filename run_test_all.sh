@@ -21,22 +21,22 @@ for CATEGORY in compiler_tests/* ; do
         NAME=$(basename $DRIVER _driver.c)
         TESTCODE=compiler_tests/$SECTION/$NAME.c
 
-        printf "Test case %-15s :\t" $NAME  
+        printf "Test case %-15s :\t" $SECTION"/"$NAME
 
 
         bin/c_compiler -S compiler_tests/$SECTION/$NAME.c -o working/${SECTION}/${NAME}.s
         if [[ $? -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Couldn't output to .s\n"
             continue
-        fi 
+        fi
 
-        mips-linux-gnu-gcc -mfp32 -o working/${SECTION}/${NAME}.o -c working/${SECTION}/${NAME}.s 
+        mips-linux-gnu-gcc -mfp32 -o working/${SECTION}/${NAME}.o -c working/${SECTION}/${NAME}.s
         if [[ $? -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Couldn't compile driver program using GCC.\n"
             continue
         fi
 
-        mips-linux-gnu-gcc -mfp32 -static -o working/${SECTION}/${NAME} working/${SECTION}/${NAME}.o compiler_tests/${SECTION}/${NAME}_driver.c 
+        mips-linux-gnu-gcc -mfp32 -static -o working/${SECTION}/${NAME} working/${SECTION}/${NAME}.o compiler_tests/${SECTION}/${NAME}_driver.c
         if [[ $? -ne 0 ]]; then
             printf "\e[1;31mError\e[0m : Linker returned error message.\n"
             continue
